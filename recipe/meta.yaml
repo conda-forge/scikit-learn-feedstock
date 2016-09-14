@@ -9,7 +9,7 @@ package:
 source:
   fn: scikit-learn-{{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  md5: 3cb6b237bcfb77168fb0b41c4cb9cff0
+  md5: 227d5b9dcd2d64871c64a7aecb086aba
 
 build:
   number: 202
