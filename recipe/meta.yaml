@@ -1,4 +1,4 @@
-{% set version = "0.17.1" %}
+{% set version = "0.18rc" %}
 
 {% set variant = "openblas" %}
 
@@ -8,8 +8,8 @@ package:
 
 source:
   fn: scikit-learn-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/s/scikit-learn/scikit-learn-{{ version }}.tar.gz
-  md5: a2f8b877e6d99b1ed737144f5a478dfc
+  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
+  md5: 3cb6b237bcfb77168fb0b41c4cb9cff0
 
 build:
   number: 202

@@ -33,7 +33,7 @@ install:
       bash $MINICONDA_FILE -b
 
       export PATH=/Users/travis/miniconda3/bin:$PATH
-      conda config --add channels conda-forge
+      conda config --add channels ['conda-forge']
       conda config --set show_channel_urls true
       conda install --yes --quiet conda-forge-build-setup
       source run_conda_forge_build_setup
@@ -41,4 +41,4 @@ install:
 script:
   - conda build ./recipe
 
-  - ./ci_support/upload_or_check_non_existence.py ./recipe conda-forge --channel=main
+  - ./ci_support/upload_or_check_non_existence.py ./recipe conda-forge --channel=rc
