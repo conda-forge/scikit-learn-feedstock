@@ -1,4 +1,4 @@
-{% set version = "0.17.1" %}
+{% set version = "0.18rc1" %}
 
 {% set variant = "openblas" %}
 
