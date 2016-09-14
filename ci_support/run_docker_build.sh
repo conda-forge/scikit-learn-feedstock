@@ -13,7 +13,7 @@ docker info
 config=$(cat <<CONDARC
 
 channels:
- - ['conda-forge']
+ - conda-forge
  - defaults # As we need conda-build
 
 conda-build:
