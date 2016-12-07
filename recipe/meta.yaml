@@ -12,7 +12,7 @@ source:
   sha256: 6f871ab07657becb3cca158dc4af96a1a14c0a360add04664fba325da43537fa
 
 build:
-  number: 202
+  number: 203
   # We lack openblas on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win or np!=111]
   features:
@@ -24,7 +24,7 @@ requirements:
     - python
     - setuptools
     - blas 1.1 {{ variant }}
-    - openblas 0.2.18|0.2.18.*
+    - openblas 0.2.19|0.2.19.*
     - numpy x.x
     - scipy
     - nose
@@ -32,7 +32,7 @@ requirements:
   run:
     - python
     - blas 1.1 {{ variant }}
-    - openblas 0.2.18|0.2.18.*
+    - openblas 0.2.19|0.2.19.*
     - numpy x.x
     - scipy
 
