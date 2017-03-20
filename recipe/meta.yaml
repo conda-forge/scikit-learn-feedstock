@@ -10,6 +10,9 @@ source:
   fn: scikit-learn-{{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: f861b988089b0ccc74c0be10a105ed2fe34a2a608d6f19e67147b4da26e39ac3
+  patches:
+    # https://github.com/scikit-learn/scikit-learn/pull/8154
+    - fix-ridge-instability.patch
 
 build:
   number: 200
