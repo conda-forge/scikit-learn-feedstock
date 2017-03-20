@@ -13,6 +13,8 @@ source:
   patches:
     # https://github.com/scikit-learn/scikit-learn/pull/8154
     - fix-ridge-instability.patch
+    # https://github.com/scikit-learn/scikit-learn/issues/8618
+    - disable-test_n_iter_without_progress.patch  # [osx]
 
 build:
   number: 200
