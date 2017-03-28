@@ -1,4 +1,4 @@
-{% set version = "0.18" %}
+{% set version = "0.18.1" %}
 
 {% set variant = "openblas" %}
 
@@ -9,10 +9,13 @@ package:
 source:
   fn: scikit-learn-{{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 6f871ab07657becb3cca158dc4af96a1a14c0a360add04664fba325da43537fa
+  sha256: f861b988089b0ccc74c0be10a105ed2fe34a2a608d6f19e67147b4da26e39ac3
+  patches:
+    # TODO: Remove this patch when 0.19 is released
+    - skip-tests-failing-on-0.18.1.patch
 
 build:
-  number: 203
+  number: 200
   # We lack openblas on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win or np!=111]
   features:
@@ -56,3 +59,5 @@ extra:
     - amueller
     - jakirkham
     - ogrisel
+    - ocefpaf
+    - lesteve
