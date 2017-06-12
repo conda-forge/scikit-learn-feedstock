@@ -13,11 +13,14 @@ source:
   patches:
     # TODO: Remove this patch when 0.19 is released
     - skip-tests-failing-on-0.18.1.patch
+    # TODO: Remove this patch when 0.19 is released
+    - PR_7946.diff
+    - PR_8355.diff
 
 build:
   number: 200
   # We lack openblas on Windows, and therefore can't build numpy there either currently.
-  skip: true  # [win or np!=112]
+  skip: true  # [win or np!=113]
   features:
     - blas_{{ variant }}
 
