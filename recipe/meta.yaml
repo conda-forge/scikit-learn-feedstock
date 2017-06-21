@@ -12,7 +12,7 @@ source:
   sha256: fc4de6feaa6682801abac19f8e4f3ed0ea56b39e7e5a89ab66c7e0a76f661445
   patches:
     # TODO: Remove this patch when 0.19 is released
-    - skip-tests-failing-on-0.18.1.patch
+    - skip-tests-failing-on-0.18.2.patch
 
 build:
   number: 200
