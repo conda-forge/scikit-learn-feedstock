@@ -45,7 +45,6 @@ conda search scikit-learn --channel conda-forge
 ```
 
 
-
 About conda-forge
 =================
 
