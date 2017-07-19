@@ -1,4 +1,4 @@
-{% set version = "0.18.2" %}
+{% set version = "0.19b2" %}
 
 {% set variant = "openblas" %}
 
@@ -9,10 +9,7 @@ package:
 source:
   fn: scikit-learn-{{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: fc4de6feaa6682801abac19f8e4f3ed0ea56b39e7e5a89ab66c7e0a76f661445
-  patches:
-    # TODO: Remove this patch when 0.19 is released
-    - skip-tests-failing-on-0.18.2.patch
+  sha256: 9241107c7b6ee8639ac63075e6caec38b10a6dc2d79eb4c5d4d31bf5dd689b05
 
 build:
   number: 200
