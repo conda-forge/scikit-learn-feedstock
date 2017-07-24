@@ -1,4 +1,4 @@
-{% set version = "0.18rc2" %}
+{% set version = "0.19b2" %}
 
 {% set variant = "openblas" %}
 
@@ -9,10 +9,10 @@ package:
 source:
   fn: scikit-learn-{{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  md5: 841dd8b665852edcb72cd956a624f524
+  sha256: 9241107c7b6ee8639ac63075e6caec38b10a6dc2d79eb4c5d4d31bf5dd689b05
 
 build:
-  number: 202
+  number: 200
   # We lack openblas on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
@@ -20,11 +20,11 @@ build:
 
 requirements:
   build:
-    - cython
+    - cython 0.25.2
     - python
     - setuptools
     - blas 1.1 {{ variant }}
-    - openblas 0.2.18|0.2.18.*
+    - openblas 0.2.19|0.2.19.*
     - numpy x.x
     - scipy
     - nose
@@ -32,7 +32,7 @@ requirements:
   run:
     - python
     - blas 1.1 {{ variant }}
-    - openblas 0.2.18|0.2.18.*
+    - openblas 0.2.19|0.2.19.*
     - numpy x.x
     - scipy
 
@@ -54,5 +54,8 @@ about:
 extra:
   recipe-maintainers:
     - amueller
+    - astaric
     - jakirkham
     - ogrisel
+    - ocefpaf
+    - lesteve
