@@ -1,4 +1,4 @@
-{% set version = "0.19b2" %}
+{% set version = "0.19.X" %}
 
 {% set variant = "openblas" %}
 
@@ -9,7 +9,7 @@ package:
 source:
   fn: scikit-learn-{{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 9241107c7b6ee8639ac63075e6caec38b10a6dc2d79eb4c5d4d31bf5dd689b05
+  sha256: d7c0cd6e7d30f49d55573e9f25a1f833f92a6062e718f2fc9db396f675be8ba1
 
 build:
   number: 200
@@ -20,7 +20,7 @@ build:
 
 requirements:
   build:
-    - cython 0.25.2
+    - cython
     - python
     - setuptools
     - blas 1.1 {{ variant }}
