@@ -11,6 +11,10 @@ source:
   patches:
     # TODO: Remove this patch when 0.19 is released
     - skip-tests-failing-on-0.18.2.patch
+    # See https://github.com/scikit-learn/scikit-learn/pull/9129
+    - backport_9129.patch
+    # https://github.com/scikit-learn/scikit-learn/pull/9311
+    - backport_9311.patch
 
 build:
   number: 201
