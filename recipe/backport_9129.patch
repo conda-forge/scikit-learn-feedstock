@@ -1,0 +1,13 @@
+--- scikit-learn-0.18.2.orig/sklearn/utils/fast_dict.pxd	2017-06-20 19:32:49.000000000 -0300
++++ scikit-learn-0.18.2/sklearn/utils/fast_dict.pxd	2017-08-07 10:47:36.537673136 -0300
+@@ -10,10 +10,8 @@
+ # Import the C-level symbols of numpy
+ cimport numpy as np
+ 
+-DTYPE = np.float64
+ ctypedef np.float64_t DTYPE_t
+ 
+-ITYPE = np.intp
+ ctypedef np.intp_t ITYPE_t
+ 
+ ###############################################################################
