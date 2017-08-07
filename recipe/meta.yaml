@@ -15,7 +15,7 @@ source:
     - skip-tests-failing-on-0.18.2.patch
 
 build:
-  number: 200
+  number: 201
   # We lack openblas on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win or np!=113]
   features:
@@ -28,7 +28,8 @@ requirements:
     - setuptools
     - blas 1.1 {{ variant }}
     - openblas 0.2.19|0.2.19.*
-    - numpy x.x
+    - numpy 1.8.*  # [not py36]
+    - numpy 1.11.*  # [py36]
     - scipy
     - nose
 
@@ -36,7 +37,8 @@ requirements:
     - python
     - blas 1.1 {{ variant }}
     - openblas 0.2.19|0.2.19.*
-    - numpy x.x
+    - numpy >=1.8  # [not py36]
+    - numpy >=1.11  # [py36]
     - scipy
 
 test:
