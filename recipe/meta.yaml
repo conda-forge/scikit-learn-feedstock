@@ -15,7 +15,7 @@ source:
     - skip-tests-failing-on-0.18.2.patch
 
 build:
-  number: 200
+  number: 201
   # We lack openblas on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win or np!=113]
   features:
