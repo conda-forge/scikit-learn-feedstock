@@ -17,7 +17,7 @@ source:
 build:
   number: 200
   # We lack openblas on Windows, and therefore can't build numpy there either currently.
-  skip: true  # [win or np!=113]
+  skip: true  # [win]
   features:
     - blas_{{ variant }}
 
