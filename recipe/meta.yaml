@@ -27,16 +27,14 @@ requirements:
     - pip
     - blas 1.1 {{ variant }}
     - openblas 0.2.20|0.2.20.*
-    - numpy 1.9.*  # [not (win and py36)]
-    - numpy 1.11.*  # [win and py36]
+    - numpy
     - scipy
     - nose
   run:
     - python
     - blas 1.1 {{ variant }}
     - openblas 0.2.20|0.2.20.*
-    - numpy >=1.9  # [not (win and py36)]
-    - numpy >=1.11  # [win and py36]
+    - {{ pin_compatible("numpy") }}
     - scipy
 
 test:
