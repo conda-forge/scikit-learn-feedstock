@@ -15,6 +15,7 @@ build:
   skip: true  # [win]
   features:
     - blas_{{ variant }}
+  script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
   build:
@@ -23,7 +24,7 @@ requirements:
   host:
     - python
     - cython
-    - setuptools
+    - pip
     - blas 1.1 {{ variant }}
     - openblas 0.2.20|0.2.20.*
     - numpy 1.9.*  # [not (win and py36)]
