@@ -42,8 +42,6 @@ test:
     - sklearn
   commands:
     - nosetests sklearn --exe
-    - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
-    - conda inspect objects -p $PREFIX scikit-learn  # [osx]
 
 about:
   home: http://scikit-learn.org/
