@@ -8,7 +8,7 @@ package:
 source:
   # testing latest commit on the 0.19.X branch prior to 0.19.2 release
   url: https://github.com/scikit-learn/scikit-learn/archive/baa18eea47ae013c1b34fdea08e3806f0b71d9ea.tar.gz
-  sha256: 2947f531ad52e81b2436b26608d8198778ac0b4baa7d2925db8b3b3fcb39c8a2
+  sha256: 3a19676bffcac199c05f9457841c6de09184062839427c343bc9348c8049c06f
 
 build:
   number: 0
