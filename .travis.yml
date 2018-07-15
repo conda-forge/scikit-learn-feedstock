@@ -8,10 +8,10 @@ osx_image: xcode6.4
 
 env:
   matrix:
-    - CONFIG=osx_python2.7
-    - CONFIG=osx_python3.5
-    - CONFIG=osx_python3.6
-
+    
+    - CONDA_PY=27
+    - CONDA_PY=35
+    - CONDA_PY=36
   global:
     # The BINSTAR_TOKEN secure variable. This is defined canonically in conda-forge.yml.
     - secure: "boWMIyP+oO6hQOUdzMvLEM+iWAEeUcWdjE66dg8cRummh7gX7t9E8+UpGydPA5VILqB8qHR94FHyS9eFYnYEoN3vM+HEoamWuWBp0Nk+IOrOFCcBQsImWP2drwujIhcWmO8sEuChQg+XcjRVWjSE3wWLaOMLLynWqB2PNv9cwIguLXApz1viOhYLqEgxjHYPSalPgUpdr0CPbtJ178WVDM2cO8Br2qo2FVHSM+pEsWzxIkpB879f85ozBZPz6yp25Kcxt/ctnTiPHbwc5O4NkCpoDvkNHlb2RtZG3FKs+8qTtm+I6BiyzPQuU0S1s+3eVGS/INzD7nzHlWzH+PpDD7XZCNlqLJb8a7fGfO36bNmAVyBhxTy/ZUcrko33YgiNk/P5hZU6xzN2uKSoTs5Muw9IUJxjXnxbSQgrS/HTYo4scG4To1oyfwRT5QtkZQ7bZu59YP2d11RL549NpaziwKUw1uuMSXCAZ24jwAtf/0vdyEq4Bi9P6BVKAz+pHqdLyWtzh8DuKPsv282q1ZumkSCCx9ewCMzYez6O3IjmxN3RmeJR5uUbQzkZGsOC/SvYsnwYj5AZP/cQ7xyyf3do5QAyb4nSXXMsK1eY2QUaFQ6VH3qjHFyXitA4MmQkRY3o/QbNzZf4zI+YKxKoIXSTqzeJNDGi1iJCnVqhTvDJ9Ho="
@@ -20,7 +20,7 @@ env:
 before_install:
     # Fast finish the PR.
     - |
-      (curl https://raw.githubusercontent.com/conda-forge/conda-forge-ci-setup-feedstock/master/recipe/ff_ci_pr_build.py | \
+      (curl https://raw.githubusercontent.com/conda-forge/conda-forge-build-setup-feedstock/master/recipe/ff_ci_pr_build.py | \
           python - -v --ci "travis" "${TRAVIS_REPO_SLUG}" "${TRAVIS_BUILD_NUMBER}" "${TRAVIS_PULL_REQUEST}") || exit 1
 
     # Remove homebrew.
@@ -52,10 +52,10 @@ install:
       conda config --add channels defaults
       conda config --add channels conda-forge
       conda config --set show_channel_urls true
-      conda install --yes --quiet conda-forge-ci-setup=1
+      conda install --yes --quiet conda-forge-build-setup
       source run_conda_forge_build_setup
 
 script:
-  - conda build ./recipe -m ./.ci_support/${CONFIG}.yaml
+  - conda build ./recipe
 
-  - upload_or_check_non_existence ./recipe conda-forge --channel=main -m ./.ci_support/${CONFIG}.yaml
+  - upload_or_check_non_existence ./recipe conda-forge --channel=main

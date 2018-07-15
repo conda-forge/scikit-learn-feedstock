@@ -14,16 +14,14 @@ Summary: A set of python modules for machine learning and data mining
 Current build status
 ====================
 
-[![Linux](https://img.shields.io/circleci/project/github/conda-forge/scikit-learn-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/scikit-learn-feedstock)
-[![OSX](https://img.shields.io/travis/conda-forge/scikit-learn-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/scikit-learn-feedstock)
-![Windows disabled](https://img.shields.io/badge/Windows-disabled-lightgrey.svg)
+Linux: [![Circle CI](https://circleci.com/gh/conda-forge/scikit-learn-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/scikit-learn-feedstock)
+OSX: [![TravisCI](https://travis-ci.org/conda-forge/scikit-learn-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/scikit-learn-feedstock)
+Windows: ![](https://cdn.rawgit.com/conda-forge/conda-smithy/90845bba35bec53edac7a16638aa4d77217a3713/conda_smithy/static/disabled.svg)
 
 Current release info
 ====================
-
-| Name | Downloads | Version | Platforms |
-| --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-scikit--learn-green.svg)](https://anaconda.org/conda-forge/scikit-learn) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/scikit-learn.svg)](https://anaconda.org/conda-forge/scikit-learn) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/scikit-learn.svg)](https://anaconda.org/conda-forge/scikit-learn) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/scikit-learn.svg)](https://anaconda.org/conda-forge/scikit-learn) |
+Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/scikit-learn/badges/version.svg)](https://anaconda.org/conda-forge/scikit-learn)
+Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/scikit-learn/badges/downloads.svg)](https://anaconda.org/conda-forge/scikit-learn)
 
 Installing scikit-learn
 =======================
