@@ -1,14 +1,15 @@
 {% set version = "0.19.2" %}
+{% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
 package:
-  name: scikit-learn
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  # testing latest commit on the 0.19.X branch prior to 0.19.2 release
-  url: https://github.com/scikit-learn/scikit-learn/archive/baa18eea47ae013c1b34fdea08e3806f0b71d9ea.tar.gz
-  sha256: 3a19676bffcac199c05f9457841c6de09184062839427c343bc9348c8049c06f
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: b276739a5f863ccacb61999a3067d0895ee291c95502929b2ae56ea1f882e888
 
 build:
   number: 0
