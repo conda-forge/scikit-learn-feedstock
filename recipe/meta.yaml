@@ -23,7 +23,12 @@ requirements:
     - {{ compiler("cxx") }}
   host:
     - python
-    - cython
+    #
+    # Pin Cython to workaround a known issue.
+    #
+    # xref: https://github.com/scikit-learn/scikit-learn/issues/10342
+    #
+    - cython 0.27.*
     - pip
     - blas 1.1 {{ variant }}
     - openblas 0.2.20|0.2.20.*
