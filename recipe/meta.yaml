@@ -15,7 +15,7 @@ build:
   skip: true  # [win]
   features:
     - blas_{{ variant }}
-  script: python -m pip install --no-deps --ignore-installed .
+  script: python -m pip install --no-deps --ignore-installed --build . .
 
 requirements:
   build:
