@@ -19,6 +19,8 @@ build:
     - LDFLAGS=$(echo "${LDFLAGS}" | sed 's/-lc++//')      # [osx]
     - LDFLAGS="${LDFLAGS} -undefined dynamic_lookup -bundle"      # [osx]
     - LINKFLAGS=$(echo "${LINKFLAGS}" | sed 's/-lc++//')  # [osx]
+    - unset LDFLAGS  # [linux]
+    - unset LINKFLAGS  # [linux]
     - python -m pip install --no-deps --ignore-installed --build . .
 
 requirements:
