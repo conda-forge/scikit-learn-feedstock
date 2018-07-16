@@ -17,6 +17,7 @@ build:
     - blas_{{ variant }}
   script:
     - LDFLAGS=$(echo "${LDFLAGS}" | sed 's/-lc++//')      # [osx]
+    - LDFLAGS="${LDFLAGS} -undefined dynamic_lookup -bundle"      # [osx]
     - LINKFLAGS=$(echo "${LINKFLAGS}" | sed 's/-lc++//')  # [osx]
     - python -m pip install --no-deps --ignore-installed --build . .
 
