@@ -15,7 +15,10 @@ build:
   skip: true  # [win]
   features:
     - blas_{{ variant }}
-  script: python -m pip install --no-deps --ignore-installed --build . .
+  script:
+    - LDFLAGS=$(echo "${LDFLAGS}" | sed 's/-lc++//')      # [osx]
+    - LINKFLAGS=$(echo "${LINKFLAGS}" | sed 's/-lc++//')  # [osx]
+    - python -m pip install --no-deps --ignore-installed --build . .
 
 requirements:
   build:
