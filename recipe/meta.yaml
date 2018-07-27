@@ -26,16 +26,14 @@ requirements:
     - setuptools
     - blas 1.1 {{ variant }}
     - openblas
-    - numpy        # [not (win and py36)]
-    - numpy         # [win and py36]
+    - numpy
     - scipy
     - nose
   run:
     - python
     - blas 1.1 {{ variant }}
     - openblas
-    - {{ pin_compatible('numpy') }}   # [not (win and py36)]
-    - {{ pin_compatible('numpy') }}   # [win and py36]
+    - {{ pin_compatible('numpy') }}
     - scipy
 
 test:
