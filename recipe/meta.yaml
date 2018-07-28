@@ -15,6 +15,8 @@ build:
   number: 201
   # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
+  features:
+    - blas_{{ variant }}
   script: python -m pip install --no-deps --ignore-installed .  --verbose
 
 requirements:
