@@ -12,29 +12,32 @@ source:
   sha256: b276739a5f863ccacb61999a3067d0895ee291c95502929b2ae56ea1f882e888
 
 build:
-  number: 200
-  # We lack openblas on Windows, and therefore can't build numpy there either currently.
+  number: 201
+  # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
     - blas_{{ variant }}
+  script: python -m pip install --no-deps --ignore-installed .  --verbose
 
 requirements:
   build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - pip
     - python
     - cython
     - setuptools
     - blas 1.1 {{ variant }}
-    - openblas 0.2.20|0.2.20.*
-    - numpy 1.9.*  # [not (win and py36)]
-    - numpy 1.11.*  # [win and py36]
+    - openblas
+    - numpy
     - scipy
     - nose
   run:
     - python
     - blas 1.1 {{ variant }}
-    - openblas 0.2.20|0.2.20.*
-    - numpy >=1.9  # [not (win and py36)]
-    - numpy >=1.11  # [win and py36]
+    - openblas
+    - {{ pin_compatible('numpy') }}
     - scipy
 
 test:
