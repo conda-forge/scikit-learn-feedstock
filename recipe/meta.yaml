@@ -13,8 +13,9 @@ source:
 
 build:
   number: 201
-  # We lack openblas on Windows, and therefore can't build numpy there either currently.
+  # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
+  script: python -m pip install --no-deps --ignore-installed .  --verbose
 
 requirements:
   build:
