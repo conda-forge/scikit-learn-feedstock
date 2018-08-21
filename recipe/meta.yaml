@@ -46,7 +46,7 @@ test:
   imports:
     - sklearn
   commands:
-    - pytest sklearn
+    - pytest --pyargs sklearn
     - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
     - conda inspect objects -p $PREFIX scikit-learn  # [osx]
 
