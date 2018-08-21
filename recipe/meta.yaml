@@ -42,11 +42,11 @@ requirements:
 
 test:
   requires:
-    - nose
+    - pytest
   imports:
     - sklearn
   commands:
-    - nosetests sklearn --exe
+    - pytest sklearn
     - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
     - conda inspect objects -p $PREFIX scikit-learn  # [osx]
 
