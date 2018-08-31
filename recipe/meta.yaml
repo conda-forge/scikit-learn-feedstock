@@ -7,7 +7,7 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
+  fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: d1d993146faa282ca2ef37a5a0ab7ee83f9b0d970d310e1170fd757c3ee55519
 
