@@ -1,58 +1,66 @@
-{% set version = "0.18rc2" %}
-
+{% set version = "0.20rc1" %}
+{% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
 package:
-  name: scikit-learn
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: scikit-learn-{{ version }}.tar.gz
+  fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  md5: 841dd8b665852edcb72cd956a624f524
+  sha256: d1d993146faa282ca2ef37a5a0ab7ee83f9b0d970d310e1170fd757c3ee55519
 
 build:
   number: 202
-  # We lack openblas on Windows, and therefore can't build numpy there either currently.
+  # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
     - blas_{{ variant }}
+  script: python -m pip install --no-deps --ignore-installed .  --verbose
 
 requirements:
   build:
-    - cython
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - pip
     - python
+    - cython
     - setuptools
     - blas 1.1 {{ variant }}
-    - openblas 0.2.18|0.2.18.*
-    - numpy x.x
+    - openblas
+    - numpy
     - scipy
-    - nose
-
+    - pytest
   run:
     - python
     - blas 1.1 {{ variant }}
-    - openblas 0.2.18|0.2.18.*
-    - numpy x.x
+    - openblas
+    - {{ pin_compatible('numpy') }}
     - scipy
 
 test:
   requires:
-    - nose
-
+    - pytest
   imports:
     - sklearn
-
   commands:
-    - echo "this is the best test ever"
+    - pytest --pyargs sklearn
+    - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
+    - conda inspect objects -p $PREFIX scikit-learn  # [osx]
 
 about:
   home: http://scikit-learn.org/
   license: BSD 3-Clause
+  license_file: COPYING
   summary: A set of python modules for machine learning and data mining
 
 extra:
   recipe-maintainers:
     - amueller
+    - astaric
     - jakirkham
     - ogrisel
+    - ocefpaf
+    - lesteve
