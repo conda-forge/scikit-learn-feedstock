@@ -1,4 +1,4 @@
-{% set version = "0.19.2" %}
+{% set version = "0.20rc1" %}
 {% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
@@ -7,12 +7,12 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b276739a5f863ccacb61999a3067d0895ee291c95502929b2ae56ea1f882e888
+  fn: {{ version }}.tar.gz
+  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
+  sha256: d1d993146faa282ca2ef37a5a0ab7ee83f9b0d970d310e1170fd757c3ee55519
 
 build:
-  number: 201
+  number: 202
   # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
@@ -32,7 +32,7 @@ requirements:
     - openblas
     - numpy
     - scipy
-    - nose
+    - pytest
   run:
     - python
     - blas 1.1 {{ variant }}
@@ -42,11 +42,11 @@ requirements:
 
 test:
   requires:
-    - nose
+    - pytest
   imports:
     - sklearn
   commands:
-    - nosetests sklearn --exe
+    - pytest --pyargs sklearn
     - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
     - conda inspect objects -p $PREFIX scikit-learn  # [osx]
 
