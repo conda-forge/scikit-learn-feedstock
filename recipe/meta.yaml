@@ -1,4 +1,4 @@
-{% set version = "0.20" %}
+{% set version = "0.20.0" %}
 {% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
@@ -12,7 +12,7 @@ source:
   sha256: 3ca2993acf49c43fc6376912d43714cbee14e14c1d578f5bf422053eda19c206
 
 build:
-  number: 1
+  number: 201
   # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
@@ -47,8 +47,6 @@ test:
     - sklearn
   commands:
     - pytest --pyargs sklearn
-    - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
-    - conda inspect objects -p $PREFIX scikit-learn  # [osx]
 
 about:
   home: http://scikit-learn.org/
