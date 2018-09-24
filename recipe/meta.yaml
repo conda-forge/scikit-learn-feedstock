@@ -1,4 +1,4 @@
-{% set version = "0.20rc1" %}
+{% set version = "0.20" %}
 {% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
@@ -9,10 +9,10 @@ package:
 source:
   fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: d1d993146faa282ca2ef37a5a0ab7ee83f9b0d970d310e1170fd757c3ee55519
+  sha256: 3ca2993acf49c43fc6376912d43714cbee14e14c1d578f5bf422053eda19c206
 
 build:
-  number: 202
+  number: 1
   # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
