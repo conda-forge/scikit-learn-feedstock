@@ -14,8 +14,7 @@ Summary: A set of python modules for machine learning and data mining
 Current build status
 ====================
 
-[![Linux](https://img.shields.io/circleci/project/github/conda-forge/scikit-learn-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/scikit-learn-feedstock)
-[![OSX](https://img.shields.io/travis/conda-forge/scikit-learn-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/scikit-learn-feedstock)
+[![Linux,OSX](https://img.shields.io/circleci/project/github/conda-forge/scikit-learn-feedstock/master.svg?label=Linux,OSX)](https://circleci.com/gh/conda-forge/scikit-learn-feedstock)
 ![Windows disabled](https://img.shields.io/badge/Windows-disabled-lightgrey.svg)
 
 Current release info
