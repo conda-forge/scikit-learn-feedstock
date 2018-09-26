@@ -1,4 +1,4 @@
-{% set version = "0.19.2" %}
+{% set version = "0.20.0" %}
 {% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
@@ -7,9 +7,9 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b276739a5f863ccacb61999a3067d0895ee291c95502929b2ae56ea1f882e888
+  fn: {{ version }}.tar.gz
+  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
+  sha256: 6f0e84931af697d7c2841ccdf50110f69cc964788f503e2f43eeaf0240482dc0
 
 build:
   number: 201
@@ -32,7 +32,7 @@ requirements:
     - openblas
     - numpy
     - scipy
-    - nose
+    - pytest
   run:
     - python
     - blas 1.1 {{ variant }}
@@ -42,13 +42,11 @@ requirements:
 
 test:
   requires:
-    - nose
+    - pytest
   imports:
     - sklearn
   commands:
-    - nosetests sklearn --exe
-    - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
-    - conda inspect objects -p $PREFIX scikit-learn  # [osx]
+    - pytest --pyargs sklearn
 
 about:
   home: http://scikit-learn.org/
