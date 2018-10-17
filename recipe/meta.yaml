@@ -17,11 +17,7 @@ build:
   skip: true  # [win]
   features:
     - blas_{{ variant }}
-  script:
-    {% if 'toolchain' in compiler('c') %}
-    - export FC="${CC}"  # [linux]
-    {% endif %}
-    - python -m pip install --no-deps --ignore-installed .  --verbose
+  script: python -m pip install --no-deps --ignore-installed .  --verbose
 
 requirements:
   build:
