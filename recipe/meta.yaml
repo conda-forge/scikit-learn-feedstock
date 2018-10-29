@@ -30,7 +30,7 @@ requirements:
     - setuptools
     - blas 1.1 {{ variant }}
     - openblas
-    - numpy 1.11
+    - numpy
     - scipy
     - pytest
   run:
