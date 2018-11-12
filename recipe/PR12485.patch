@@ -1,0 +1,21 @@
+From 7a9a767a009657a556d19a5472f93577cda6857b Mon Sep 17 00:00:00 2001
+From: Roman Yurchak <rth.yurchak@pm.me>
+Date: Mon, 29 Oct 2018 23:48:10 +0100
+Subject: [PATCH] Fix segfault in AgglomerativeClustering with read-only mmaps
+
+---
+ sklearn/cluster/hierarchical.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sklearn/cluster/hierarchical.py b/sklearn/cluster/hierarchical.py
+index 929b4ba449b1..3e5d2e8203ba 100644
+--- a/sklearn/cluster/hierarchical.py
++++ b/sklearn/cluster/hierarchical.py
+@@ -230,6 +230,7 @@ def ward_tree(X, connectivity=None, n_clusters=None, return_distance=False):
+                           'retain the lower branches required '
+                           'for the specified number of clusters',
+                           stacklevel=2)
++        X = np.require(X, requirements="W")
+         out = hierarchy.ward(X)
+         children_ = out[:, :2].astype(np.intp)
+ 

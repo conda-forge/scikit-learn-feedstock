@@ -10,9 +10,12 @@ source:
   fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 6f0e84931af697d7c2841ccdf50110f69cc964788f503e2f43eeaf0240482dc0
+  patches:
+    # Fix segfault in AgglomerativeClustering with read-only mmaps
+    - PR12485.patch
 
 build:
-  number: 1201
+  number: 1202
   # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
