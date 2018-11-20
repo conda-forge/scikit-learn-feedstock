@@ -9,7 +9,7 @@ package:
 source:
   fn: for0.20.1.tar.gz
   url: https://github.com/jnothman/scikit-learn/archive/for0.20.1.zip
-  sha256: f9c695a2099303c3afe988319bfd196e5459f3054a45b844c4f336286a8ebe19
+  sha256: 00c2778d3e7ff75f55c0b9ee67bac598fb2d84696a265cd7f2861ba813be049d
 
 build:
   number: 1200
