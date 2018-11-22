@@ -7,9 +7,9 @@ package:
   version: {{ version }}
 
 source:
-  fn: 0.20.1.tar.gz
-  url: https://github.com/scikit-learn/scikit-learn/archive/0.20.1.zip
-  sha256: 63c5099bfc7b4d849c36d3434b9b67233a75978c23dc32a9eb46f06704cc9cfe
+  fn: {{ version }}.tar.gz
+  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.zip
+  sha256: 5f78b8d2cd13afdfeef297dd1f898a4d45024a35cf4288ef7f4f29b12c75d91f
 
 build:
   number: 1200
