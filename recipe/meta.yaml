@@ -8,8 +8,8 @@ package:
 
 source:
   fn: {{ version }}.tar.gz
-  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.zip
-  sha256: 5f78b8d2cd13afdfeef297dd1f898a4d45024a35cf4288ef7f4f29b12c75d91f
+  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
+  sha256: 618feea121c59a52ea459d6af7bc179344ca345775b04bd60e96740e9df75960
 
 build:
   number: 1200
@@ -46,7 +46,7 @@ test:
   imports:
     - sklearn
   commands:
-    - OPENBLAS_NUM_THREADS=2 pytest --pyargs sklearn
+    - OPENBLAS_NUM_THREADS=1 pytest --pyargs sklearn
 
 about:
   home: http://scikit-learn.org/
