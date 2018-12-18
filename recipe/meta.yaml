@@ -9,10 +9,10 @@ package:
 source:
   fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: c3f4cdf60dc1c93895c7d3e2b789412f1c37bd910a7312a8016caa0458e3f377
+  sha256: f3c0bc327b9bc791c1e64680a76cf9465cd84a7c90294453468f2b5ec3ff0ff6
 
 build:
-  number: 1200
+  number: 0
   # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
