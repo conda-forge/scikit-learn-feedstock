@@ -1,4 +1,4 @@
-{% set version = "0.20.1" %}
+{% set version = "0.20.2" %}
 {% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
@@ -9,7 +9,7 @@ package:
 source:
   fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 618feea121c59a52ea459d6af7bc179344ca345775b04bd60e96740e9df75960
+  sha256: c3f4cdf60dc1c93895c7d3e2b789412f1c37bd910a7312a8016caa0458e3f377
 
 build:
   number: 1200
