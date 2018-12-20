@@ -46,7 +46,7 @@ test:
   imports:
     - sklearn
   commands:
-    - OPENBLAS_NUM_THREADS=1 pytest --pyargs sklearn
+    - OPENBLAS_NUM_THREADS=1 pytest --verbose --pyargs sklearn
 
 about:
   home: http://scikit-learn.org/
