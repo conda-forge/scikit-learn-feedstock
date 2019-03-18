@@ -12,11 +12,7 @@ source:
   sha256: cadeefa9a824671bdcad790a075efbaa0d5a00458c43c9b4ce7110b129df7b10
 
 build:
-  number: 0
-  # We lack scipy on Windows, and therefore can't build numpy there either currently.
-  skip: true  # [win]
-  features:
-    - blas_{{ variant }}
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .  --verbose
 
 requirements:
@@ -27,16 +23,14 @@ requirements:
     - pip
     - python
     - cython
+    - libblas
+    - libcblas
     - setuptools
-    - blas 1.1 {{ variant }}
-    - openblas
     - numpy
     - scipy
     - pytest
   run:
     - python
-    - blas 1.1 {{ variant }}
-    - openblas
     - {{ pin_compatible('numpy') }}
     - scipy
 
