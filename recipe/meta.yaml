@@ -13,7 +13,10 @@ source:
 
 build:
   number: 1
-  script: python -m pip install --no-deps --ignore-installed .  -vv
+  script:
+    - rm $PREFIX/include/cblas.h      # [not win]
+    - del /f %LIBRARY_INC%\cblas.h    # [win]
+    - python -m pip install --no-deps --ignore-installed .  -vv
 
 requirements:
   build:
