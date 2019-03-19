@@ -23,6 +23,7 @@ requirements:
     - pip
     - python
     - cython
+    - blas * netlib
     - libblas
     - libcblas
     - liblapack
