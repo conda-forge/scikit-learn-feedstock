@@ -12,12 +12,11 @@ source:
   sha256: cadeefa9a824671bdcad790a075efbaa0d5a00458c43c9b4ce7110b129df7b10
 
 build:
-  number: 0
-  # We lack scipy on Windows, and therefore can't build numpy there either currently.
-  skip: true  # [win]
-  features:
-    - blas_{{ variant }}
-  script: python -m pip install --no-deps --ignore-installed .  --verbose
+  number: 1
+  script:
+    - rm $PREFIX/include/cblas.h      # [not win]
+    - del /f %LIBRARY_INC%\cblas.h    # [win]
+    - python -m pip install --no-deps --ignore-installed .  -vv
 
 requirements:
   build:
@@ -27,16 +26,13 @@ requirements:
     - pip
     - python
     - cython
+    - libcblas
     - setuptools
-    - blas 1.1 {{ variant }}
-    - openblas
     - numpy
     - scipy
     - pytest
   run:
     - python
-    - blas 1.1 {{ variant }}
-    - openblas
     - {{ pin_compatible('numpy') }}
     - scipy
 
@@ -46,7 +42,9 @@ test:
   imports:
     - sklearn
   commands:
-    - OPENBLAS_NUM_THREADS=1 pytest --verbose --pyargs sklearn
+    - set OPENBLAS_NUM_THREADS=1          # [win]
+    - export OPENBLAS_NUM_THREADS=1       # [not win]
+    - pytest --verbose --pyargs sklearn
 
 about:
   home: http://scikit-learn.org/
