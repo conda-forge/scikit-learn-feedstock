@@ -1,4 +1,4 @@
-{% set version = "0.20.3" %}
+{% set version = "0.21.0" %}
 {% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
@@ -9,10 +9,10 @@ package:
 source:
   fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: cadeefa9a824671bdcad790a075efbaa0d5a00458c43c9b4ce7110b129df7b10
+  sha256: 15ff8f24909c68340532147ca6ff68e05508c836ceb5307c23d80a825a3e2a45
 
 build:
-  number: 1
+  number: 0
   script:
     - rm $PREFIX/include/cblas.h      # [not win]
     - del /f %LIBRARY_INC%\cblas.h    # [win]
