@@ -13,11 +13,11 @@ source:
 
 build:
   number: 0
-  # We lack scipy on Windows, and therefore can't build numpy there either currently.
-  skip: true  # [win]
-  features:
-    - blas_{{ variant }}
-  script: python -m pip install --no-deps --ignore-installed .  --verbose
+  script:
+    - rm $PREFIX/include/cblas.h      # [not win]
+    - del /f %LIBRARY_INC%\cblas.h    # [win]
+    # pip installing this fails randonly :-/
+    - "{{ PYTHON }} setup.py install --single-version-externally-managed --record record.txt"
 
 requirements:
   build:
@@ -27,9 +27,8 @@ requirements:
     - pip
     - python
     - cython
+    - libcblas
     - setuptools
-    - blas 1.1 {{ variant }}
-    - openblas
     - numpy
     - scipy
     - joblib
@@ -37,8 +36,6 @@ requirements:
     - pytest
   run:
     - python
-    - blas 1.1 {{ variant }}
-    - openblas
     - {{ pin_compatible('numpy') }}
     - scipy
     - joblib
@@ -50,7 +47,9 @@ test:
   imports:
     - sklearn
   commands:
-    - OPENBLAS_NUM_THREADS=1 pytest --pyargs sklearn
+    - set OPENBLAS_NUM_THREADS=1          # [win]
+    - export OPENBLAS_NUM_THREADS=1       # [not win]
+    - pytest --verbose --pyargs sklearn
 
 about:
   home: http://scikit-learn.org/
