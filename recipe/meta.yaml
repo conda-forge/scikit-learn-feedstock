@@ -25,7 +25,7 @@ requirements:
     - {{ compiler('cxx') }}
   host:
     - pip
-    - python
+    - python >= 3.5
     - cython
     - libcblas
     - setuptools
@@ -35,7 +35,7 @@ requirements:
     - openmp
     - pytest
   run:
-    - python
+    - python >= 3.5
     - {{ pin_compatible('numpy') }}
     - scipy
     - joblib
