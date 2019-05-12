@@ -1,13 +1,11 @@
 {% set version = "0.21.0" %}
-{% set name = "scikit-learn" %}
 {% set variant = "openblas" %}
 
 package:
-  name: {{ name }}
+  name: scikit-learn
   version: {{ version }}
 
 source:
-  fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 15ff8f24909c68340532147ca6ff68e05508c836ceb5307c23d80a825a3e2a45
 
@@ -24,18 +22,18 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - pip
     - python
+    - pip
     - cython
     - libcblas
-    - setuptools
-    - numpy
-    - scipy
-    - pytest
+    - numpy 1.14.*
+    - scipy >=0.17.0
+    - joblib >=0.11
   run:
     - python
     - {{ pin_compatible('numpy') }}
     - scipy
+    - joblib >=0.11
 
 test:
   requires:
