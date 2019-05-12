@@ -38,6 +38,7 @@ requirements:
 test:
   requires:
     - pytest
+    - cython
   imports:
     - sklearn
   commands:
