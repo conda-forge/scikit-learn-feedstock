@@ -13,6 +13,7 @@ source:
 
 build:
   number: 0
+  skip: true  # [py<35]
   script:
     - rm $PREFIX/include/cblas.h      # [not win]
     - del /f %LIBRARY_INC%\cblas.h    # [win]
