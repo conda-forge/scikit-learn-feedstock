@@ -15,16 +15,17 @@ build:
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
-    - export LDFLAGS="$LDFLAGS -undefined dynamic_lookup -bundle -fopenmp"  # [osx]
     - "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - llvm-openmp  # [osx]
   host:
     - python
     - pip
+    - llvm-openmp  # [osx]
     - cython >=0.28.5
     - libcblas
     - numpy 1.11.*
@@ -32,6 +33,7 @@ requirements:
     - joblib >=0.11
   run:
     - python
+    - llvm-openmp  # [osx]
     - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=0.11
