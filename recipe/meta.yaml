@@ -13,11 +13,9 @@ build:
   number: 0
   skip: True  # [py2k]
   script:
-    - rm $PREFIX/include/cblas.h      # [not win]
-    - del /f %LIBRARY_INC%\cblas.h    # [win]
-    - export SKLEARN_NO_OPENMP=1  # [osx]
-    # pip installing this fails randonly :-/
-    # - "{{ PYTHON }} setup.py install --single-version-externally-managed --record record.txt"
+    - rm $PREFIX/include/cblas.h  # [not win]
+    - del /f %LIBRARY_INC%\cblas.h  # [win]
+    - export LDFLAGS="$LDFLAGS -undefined dynamic_lookup -bundle -fopenmp"  # [osx]
     - "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
