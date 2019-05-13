@@ -17,7 +17,8 @@ build:
     - del /f %LIBRARY_INC%\cblas.h    # [win]
     - export SKLEARN_NO_OPENMP=1  # [osx]
     # pip installing this fails randonly :-/
-    - "{{ PYTHON }} setup.py install --single-version-externally-managed --record record.txt"
+    # - "{{ PYTHON }} setup.py install --single-version-externally-managed --record record.txt"
+    - "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   build:
@@ -26,7 +27,7 @@ requirements:
   host:
     - python
     - pip
-    - cython
+    - cython >=0.28.5
     - libcblas
     - numpy 1.11.*
     - scipy >=0.17.0
@@ -39,8 +40,8 @@ requirements:
 
 test:
   requires:
-    - pytest
-    - cython
+    - pytest >=3.3.0
+    - cython >=0.28.5
   imports:
     - sklearn
   commands:
