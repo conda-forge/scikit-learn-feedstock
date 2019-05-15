@@ -1,45 +1,47 @@
-{% set version = "0.20.3" %}
-{% set name = "scikit-learn" %}
+{% set version = "0.21.1" %}
 {% set variant = "openblas" %}
 
 package:
-  name: {{ name }}
+  name: scikit-learn
   version: {{ version }}
 
 source:
-  fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: cadeefa9a824671bdcad790a075efbaa0d5a00458c43c9b4ce7110b129df7b10
+  sha256: 7faa4c58336c83a449e1cc66eb2a08353821f492299263d03e7d2ddee27b6056
 
 build:
-  number: 1
+  number: 0
+  skip: True  # [py2k]
   script:
-    - rm $PREFIX/include/cblas.h      # [not win]
-    - del /f %LIBRARY_INC%\cblas.h    # [win]
-    # pip installing this fails randonly :-/
-    - "{{ PYTHON }} setup.py install --single-version-externally-managed --record record.txt"
+    - rm $PREFIX/include/cblas.h  # [not win]
+    - del /f %LIBRARY_INC%\cblas.h  # [win]
+    - "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - llvm-openmp  # [osx]
   host:
-    - pip
     - python
-    - cython
+    - pip
+    - llvm-openmp  # [osx]
+    - cython >=0.28.5
     - libcblas
-    - setuptools
-    - numpy
-    - scipy
-    - pytest
+    - numpy 1.11.*
+    - scipy >=0.17.0
+    - joblib >=0.11
   run:
     - python
+    - llvm-openmp  # [osx]
     - {{ pin_compatible('numpy') }}
     - scipy
+    - joblib >=0.11
 
 test:
   requires:
-    - pytest
+    - pytest >=3.3.0
+    - cython >=0.28.5
   imports:
     - sklearn
   commands:
