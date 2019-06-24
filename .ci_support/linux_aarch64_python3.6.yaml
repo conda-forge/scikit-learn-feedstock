@@ -20,6 +20,8 @@ docker_image:
 - condaforge/linux-anvil-aarch64
 libcblas:
 - 3.8 *netlib
+numpy:
+- '1.16'
 pin_run_as_build:
   python:
     min_pin: x.x
