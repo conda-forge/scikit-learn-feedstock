@@ -10,7 +10,7 @@ source:
   sha256: 4f6af7ef3a189aa963ad2731cea9f17863dd819dbf0dd7568ab4946566d76c24
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
