@@ -10,7 +10,7 @@ source:
   sha256: 4f6af7ef3a189aa963ad2731cea9f17863dd819dbf0dd7568ab4946566d76c24
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
@@ -28,7 +28,7 @@ requirements:
     - llvm-openmp  # [osx]
     - cython >=0.28.5
     - libcblas
-    - numpy 1.11.*
+    - numpy
     - scipy >=0.17.0
     - joblib >=0.11
   run:
@@ -47,7 +47,8 @@ test:
   commands:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
-    - pytest --verbose --pyargs sklearn
+    - pytest --verbose --pyargs sklearn  # [not (aarch64 or ppc64le)]
+    - pytest --verbose --pyargs sklearn -k 'not test_estimate_bandwidth_1sample'  # [aarch64 or ppc64le]
 
 about:
   home: http://scikit-learn.org/
