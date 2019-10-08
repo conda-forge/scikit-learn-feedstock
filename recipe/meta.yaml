@@ -13,7 +13,7 @@ build:
   number: 0
   skip: True  # [py2k]
   script:
-    - rm $PREFIX/include/cblas.h  # [not win]
+    - rm -f $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
     - "{{ PYTHON }} -m pip install . --no-deps -vv"
 
