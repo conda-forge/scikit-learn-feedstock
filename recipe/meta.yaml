@@ -47,7 +47,8 @@ test:
   commands:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
-    - pytest --verbose --pyargs sklearn -k 'not test_lda_predict'  # [not (aarch64 or ppc64le)]
+    - pytest --verbose --pyargs sklearn  # [not (aarch64 or ppc64le or linux64)]
+    - pytest --verbose --pyargs sklearn -k 'not test_lda_predict'  # [linux64]
     - pytest --verbose --pyargs sklearn -k 'not test_estimate_bandwidth_1sample'  # [aarch64 or ppc64le]
 
 about:
