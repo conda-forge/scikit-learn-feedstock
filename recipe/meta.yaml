@@ -41,6 +41,7 @@ requirements:
 test:
   requires:
     - pytest >=3.3.0
+    - pytest-xdist
     - cython >=0.28.5
   imports:
     - sklearn
@@ -49,7 +50,7 @@ test:
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - pytest --verbose --pyargs sklearn  # [not (aarch64 or ppc64le or linux64)]
     - pytest --verbose --pyargs sklearn -k 'not test_lda_predict'  # [linux64]
-    - pytest --verbose --pyargs sklearn -k 'not test_estimate_bandwidth_1sample'  # [aarch64 or ppc64le]
+    - pytest -n {{ CPU_COUNT }} --verbose --pyargs sklearn -k 'not test_estimate_bandwidth_1sample'  # [aarch64 or ppc64le]
 
 about:
   home: http://scikit-learn.org/
