@@ -8,6 +8,8 @@ package:
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 260f66e9c643207fe8cfe0995242060fdb14137b5e69a8dd273ac463b7e9426b
+  patches:
+    - skip_problematic_test.patch  # [aarch64 or ppc64le]
 
 build:
   number: 0
@@ -49,7 +51,7 @@ test:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - pytest -n {{ CPU_COUNT }} --verbose --pyargs sklearn  # [not (linux64)]
-    - pytest -n {{ CPU_COUNT }} --verbose --pyargs sklearn -k 'not test_lda_predict'  # [linux64]
+    - PYTHONHASHSEED=0 pytest -n {{ CPU_COUNT }} --verbose --pyargs sklearn -k 'not test_lda_predict'  # [unix]
 
 about:
   home: http://scikit-learn.org/
