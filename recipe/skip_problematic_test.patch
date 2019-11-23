@@ -1,0 +1,13 @@
+diff --git a/sklearn/tests/test_random_projection.py b/sklearn/tests/test_random_projection.py
+index d23da948e..b87209195 100644
+--- a/sklearn/tests/test_random_projection.py
++++ b/sklearn/tests/test_random_projection.py
+@@ -116,7 +116,7 @@ def check_input_with_sparse_random_matrix(random_matrix):
+ 
+ 
+ @pytest.mark.parametrize("random_matrix", all_random_matrix)
+-def test_basic_property_of_random_matrix(random_matrix):
++def _test_basic_property_of_random_matrix(random_matrix):
+     # Check basic properties of random matrix generation
+     check_input_size_random_matrix(random_matrix)
+     check_size_generated(random_matrix)
