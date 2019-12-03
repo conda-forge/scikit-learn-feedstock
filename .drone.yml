@@ -50,7 +50,6 @@ steps:
     - /opt/docker/bin/entrypoint $FEEDSTOCK_ROOT/.scripts/build_steps.sh
     - echo "Done building"
 
----
 kind: pipeline
 name: linux_aarch64_python3.8
 
@@ -75,4 +74,3 @@ steps:
     - sed -i '$ichown -R conda:conda "$FEEDSTOCK_ROOT"' /opt/docker/bin/entrypoint
     - /opt/docker/bin/entrypoint $FEEDSTOCK_ROOT/.scripts/build_steps.sh
     - echo "Done building"
-
