@@ -7,10 +7,6 @@ package:
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 6a495dbd5aac1f89d1ed51140fc41adb1f892293492b51b667eb5c40df1bde48
-  patches:
-    # These tests fail at collection time due to the fact that
-    # They are not provided to pytest in a deterministic order
-    - skip_problematic_test.patch  # [aarch64 or ppc64le]
 
 build:
   number: 0
@@ -51,10 +47,8 @@ test:
   commands:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
-    - pytest --verbose --pyargs sklearn  # [not (aarch64 or ppc64le or linux64)]
-    - pytest --verbose --pyargs sklearn -k 'not test_lda_predict'  # [linux64]
-    - PYTHONHASHSEED=0 pytest -n {{ CPU_COUNT }} --verbose --pyargs sklearn -k 'not (test_estimate_bandwidth_1sample or test_unreachable_accuracy or test_estimators)'  # [aarch64]
-    - pytest --verbose --pyargs sklearn -k 'not test_estimate_bandwidth_1sample'  # [ppc64le]
+    - pytest -n {{ CPU_COUNT }} --pyargs sklearn  # [not (aarch64 or ppc64le)]
+    - pytest -n {{ CPU_COUNT }} --pyargs sklearn -k 'not test_uniform_grid[barnes_hut]'  # [ppc64le or aarch64]
 
 about:
   home: http://scikit-learn.org/
