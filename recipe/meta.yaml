@@ -48,7 +48,7 @@ test:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - pytest -n {{ CPU_COUNT }} --pyargs sklearn  # [not (aarch64 or ppc64le)]
-    - pytest -n {{ CPU_COUNT }} --pyargs sklearn -k 'not test_uniform_grid[barnes_hut]'  # [ppc64le or aarch64]
+    - pytest -n {{ CPU_COUNT }} --pyargs sklearn -k 'not (test_estimate_bandwidth_1sample or test_uniform_grid[barnes_hut])'  # [ppc64le or aarch64]
 
 about:
   home: http://scikit-learn.org/
