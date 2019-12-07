@@ -19,7 +19,9 @@ build:
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
-    - "{{ PYTHON }} -m pip install . --no-deps -vv"
+    #- "{{ PYTHON }} -m pip install . --no-deps -vv"
+    - {{ PYTHON }} setup.py build_ext -j{{ CPU_COUNT }}
+    - {{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
