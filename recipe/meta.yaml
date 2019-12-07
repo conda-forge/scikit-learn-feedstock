@@ -46,6 +46,18 @@ requirements:
 {% set test_cpus = 4 %}          # [ppc64le]
 {% set test_cpus = 8 %}          # [aarch64]
 {% set tests_to_skip = "_not_a_real_test" %}
+# Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
+{% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}  # [ppc64le]
+#  Can take an unreasonable amount of time -- https://github.com/scikit-learn/scikit-learn/issues/15822
+{% set tests_to_skip = tests_to_skip + " or test_missing_values_resilience" %}  # [aarch64]          -- 
+# Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
+{% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}  # [aarch64]
+# Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
+{% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}  # [linux]
+# Can timeout -- https://github.com/scikit-learn/scikit-learn/issues/15823
+{% set tests_to_skip = tests_to_skip + " or test_warm_start_yields_identical_results" %}  # [aarch64]
+# I forget -- test_early_stopping_regression
+{% set tests_to_skip = tests_to_skip + " or test_early_stopping_regression" %}  # [aarch64]
 test:
   requires:
     - pytest >=3.3.0
@@ -57,18 +69,6 @@ test:
   commands:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
-    # Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
-    {% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}  # [ppc64le]
-    #  Can take an unreasonable amount of time -- https://github.com/scikit-learn/scikit-learn/issues/15822
-    {% set tests_to_skip = tests_to_skip + " or test_missing_values_resilience" %}  # [aarch64]          -- 
-    # Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
-    {% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}  # [aarch64]
-    # Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
-    {% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}  # [linux]
-    # Can timeout -- https://github.com/scikit-learn/scikit-learn/issues/15823
-    {% set tests_to_skip = tests_to_skip + " or test_warm_start_yields_identical_results" %}  # [aarch64]
-    # I forget -- test_early_stopping_regression
-    {% set tests_to_skip = tests_to_skip + " or test_early_stopping_regression" %}  # [aarch64]
     - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"
 
 about:
