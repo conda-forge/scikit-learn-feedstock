@@ -8,6 +8,10 @@ package:
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 6a495dbd5aac1f89d1ed51140fc41adb1f892293492b51b667eb5c40df1bde48
+  patches:
+    # Remove in 0.22.1
+    # https://github.com/scikit-learn/scikit-learn/pull/15775
+    - 15775-Increases-tol-for-check_pca_float_dtype_preservation-assertion.patch
 
 build:
   number: 0
