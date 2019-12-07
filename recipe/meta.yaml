@@ -53,7 +53,7 @@ test:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - pytest -n {{ CPU_COUNT }} --pyargs sklearn  # [not (aarch64 or ppc64le)]
-    - pytest -n {{ CPU_COUNT }} --pyargs sklearn -k 'not (test_estimate_bandwidth_1sample or test_sag_regressor_computed_correctly)'  # [aarch64 or ppc64le]
+    - pytest --verbose --pyargs sklearn -k 'not (test_estimate_bandwidth_1sample or test_sag_regressor_computed_correctly)'  # [aarch64 or ppc64le]
 
 about:
   home: http://scikit-learn.org/
