@@ -44,6 +44,12 @@ requirements:
     - scipy
     - joblib >=0.11
 
+
+# Some tests take alot of memory, and seem to cause segfaults when memory runs out
+{% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
+{% set test_cpus = 4 %}          # [ppc64le]
+{% set test_cpus = 8 %}          # [aarch64]
+{% set tests_to_skip = "_not_a_real_test" %}
 test:
   requires:
     - pytest >=3.3.0
@@ -55,16 +61,18 @@ test:
   commands:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
-    - pytest --timeout 300 -n {{ CPU_COUNT }} --pyargs sklearn  # [not (aarch64 or ppc64le)]
-    # Some tests take alot of memory, and seem to cause segfaults when memory runs out
-    - pytest --timeout 300 -n 4 --verbose --pyargs sklearn -k 'not (test_sag_regressor_computed_correctly)'  # [ppc64le]
     # test_missing_values_resilience  -- Can take an unreasonable amount of time
     #     https://github.com/scikit-learn/scikit-learn/issues/15822
+    {% set tests_to_skip = tests_to_skip + " or test_missing_values_resilience" %}  # [aarch64]
     # test_uniform_grid               -- Can fail on aarch64
     #     https://github.com/scikit-learn/scikit-learn/issues/15821
-    # test_sag_regressor_computed_correctrly -- Can fail
+    {% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}  # [aarch64]
+    # test_sag_regressor_computed_correctly -- Can fail
     #     https://github.com/scikit-learn/scikit-learn/issues/15818
-    - pytest --timeout 300 -n 8 --verbose --pyargs sklearn -k 'not (test_sag_regressor_computed_correctly or test_missing_values_resilience or test_uniform_grid or test_early_stopping_regression)'  # [aarch64]
+    {% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}  # [ppc64le or aarch64]
+    # test_early_stopping_regression -- I forget
+    {% set tests_to_skip = tests_to_skip + " or test_early_stopping_regression" %}  # [aarch64]
+    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k 'not ({{ tests_to_skip }})'
 
 about:
   home: http://scikit-learn.org/
