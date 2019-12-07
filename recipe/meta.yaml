@@ -8,10 +8,6 @@ package:
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 6a495dbd5aac1f89d1ed51140fc41adb1f892293492b51b667eb5c40df1bde48
-  patches:
-    # Remove in 0.22.1
-    # https://github.com/scikit-learn/scikit-learn/pull/15775
-    - 15775-Increases-tol-for-check_pca_float_dtype_preservation-assertion.patch
 
 build:
   number: 0
@@ -61,19 +57,17 @@ test:
   commands:
     - set OPENBLAS_NUM_THREADS=1          # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
-    # test_missing_values_resilience  -- Can take an unreasonable amount of time
-    #     https://github.com/scikit-learn/scikit-learn/issues/15822
-    {% set tests_to_skip = tests_to_skip + " or test_missing_values_resilience" %}  # [aarch64]
-    # test_uniform_grid               -- Can fail on aarch64
-    #     https://github.com/scikit-learn/scikit-learn/issues/15821
+    # Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
+    {% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}  # [ppc64le]
+    #  Can take an unreasonable amount of time -- https://github.com/scikit-learn/scikit-learn/issues/15822
+    {% set tests_to_skip = tests_to_skip + " or test_missing_values_resilience" %}  # [aarch64]          -- 
+    # Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
     {% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}  # [aarch64]
-    # test_sag_regressor_computed_correctly -- Can fail
-    #     https://github.com/scikit-learn/scikit-learn/issues/15818
-    {% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}  # [ppc64le or aarch64]
-    # test_warm_start_yields_identical_results -- Can timeout
-    #     https://github.com/scikit-learn/scikit-learn/issues/15823
+    # Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
+    {% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}  # [linux]
+    # Can timeout -- https://github.com/scikit-learn/scikit-learn/issues/15823
     {% set tests_to_skip = tests_to_skip + " or test_warm_start_yields_identical_results" %}  # [aarch64]
-    # test_early_stopping_regression -- I forget
+    # I forget -- test_early_stopping_regression
     {% set tests_to_skip = tests_to_skip + " or test_early_stopping_regression" %}  # [aarch64]
     - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"
 
