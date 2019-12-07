@@ -55,7 +55,8 @@ test:
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - pytest --timeout 300 -n {{ CPU_COUNT }} --pyargs sklearn  # [not (aarch64 or ppc64le)]
     # Some tests take alot of memory, and seem to cause segfaults when memory runs out
-    - pytest --timeout 300 -n 4 --verbose --pyargs sklearn -k 'not (test_estimate_bandwidth_1sample or test_sag_regressor_computed_correctly or test_uniform_grid)'  # [aarch64 or ppc64le]
+    - pytest --timeout 300 -n 4 --verbose --pyargs sklearn -k 'not (test_estimate_bandwidth_1sample or test_sag_regressor_computed_correctly or test_uniform_grid)'  # [ppc64le]
+    - pytest --timeout 300 -n 8 --verbose --pyargs sklearn -k 'not (test_estimate_bandwidth_1sample or test_sag_regressor_computed_correctly or test_uniform_grid or test_early_stopping_regression)'  # [aarch64]
 
 about:
   home: http://scikit-learn.org/
