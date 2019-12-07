@@ -1,0 +1,22 @@
+From e44f850efc6a77b6dc48b9e30f069e9395cd421c Mon Sep 17 00:00:00 2001
+From: Thomas J Fan <thomasjpfan@gmail.com>
+Date: Tue, 3 Dec 2019 22:57:03 -0500
+Subject: [PATCH] TST Increases tol for pca assertion
+
+---
+ sklearn/decomposition/tests/test_pca.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sklearn/decomposition/tests/test_pca.py b/sklearn/decomposition/tests/test_pca.py
+index 826a8cc082c3..d2c5452c1046 100644
+--- a/sklearn/decomposition/tests/test_pca.py
++++ b/sklearn/decomposition/tests/test_pca.py
+@@ -532,7 +532,7 @@ def check_pca_float_dtype_preservation(svd_solver):
+     assert pca_64.transform(X_64).dtype == np.float64
+     assert pca_32.transform(X_32).dtype == np.float32
+ 
+-    assert_allclose(pca_64.components_, pca_32.components_, rtol=1e-4)
++    assert_allclose(pca_64.components_, pca_32.components_, rtol=2e-4)
+ 
+ 
+ def check_pca_int_dtype_upcast_to_double(svd_solver):
