@@ -58,6 +58,16 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_warm_start_yields_identical_results" %}  # [aarch64]
 # I forget -- test_early_stopping_regression
 {% set tests_to_skip = tests_to_skip + " or test_early_stopping_regression" %}  # [aarch64]
+
+# Many really slow tests on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15824
+{% set tests_to_skip += " or test_least_absolute_deviation" %}  # [aarch64]
+{% set tests_to_skip += " or test_missing_values_minmax_imputation" %}  # [aarch64]
+{% set tests_to_skip += " or test_warm_start_clear" %}  # [aarch64]
+{% set tests_to_skip += " or test_recursion_decision_function" %}  # [aarch64]
+{% set tests_to_skip += " or test_estimators" %}  # [aarch64]
+
+# Occasionally fails on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15825
+{% set tests_to_skip += " or test_unreachable_accuracy" %}  # [aarch64]
 test:
   requires:
     - pytest >=3.3.0
