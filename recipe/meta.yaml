@@ -58,8 +58,8 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}       # [linux]
 # Can timeout -- https://github.com/scikit-learn/scikit-learn/issues/15823
 {% set tests_to_skip = tests_to_skip + " or test_warm_start_yields_identical_results" %}  # [aarch64]
-# I forget -- test_early_stopping_regression
-# {% set tests_to_skip = tests_to_skip + " or test_early_stopping_regression" %}          # [aarch64]
+# Test can be slow -- https://github.com/scikit-learn/scikit-learn/issues/15837
+{% set tests_to_skip = tests_to_skip + " or test_early_stopping_regression" %}            # [aarch64 or ppc64le]
 
 # Many really slow tests on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15824
 {% set tests_to_skip = tests_to_skip + " or test_least_absolute_deviation" %}             # [aarch64]
