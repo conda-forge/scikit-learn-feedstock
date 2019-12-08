@@ -42,7 +42,7 @@ requirements:
 
 
 # Some tests take alot of memory, and seem to cause segfaults when memory runs out
-{% set test_cpus = CPU_COUNT %}
+{% set test_cpus = "32" %}
 {% set tests_to_skip = "_not_a_real_test" %}
 # Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
 {% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}  # [ppc64le]
