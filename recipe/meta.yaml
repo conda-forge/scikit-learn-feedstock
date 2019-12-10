@@ -10,12 +10,15 @@ source:
   sha256: 6a495dbd5aac1f89d1ed51140fc41adb1f892293492b51b667eb5c40df1bde48
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
-    - "{{ PYTHON }} -m pip install . --no-deps -vv"
+    # build the C files in parallel. This helps beat the
+    # time limit consistently on drone.io
+    - {{ PYTHON }} setup.py build_ext -j{{ CPU_COUNT }}
+    - {{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
@@ -38,17 +41,36 @@ requirements:
     - scipy
     - joblib >=0.11
 
+
+# Some tests take alot of memory, and seem to cause segfaults when memory runs out
+{% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
+{% set test_cpus = 4 %}          # [ppc64le]
+{% set test_cpus = 8 %}          # [aarch64]
+
+{% set tests_to_skip = "_not_a_real_test" %}
+# Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
+{% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}               # [ppc64le]
+# Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
+{% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}                         # [aarch64]
+# Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
+{% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}       # [linux]
+# Occasionally fails on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15825
+{% set tests_to_skip = tests_to_skip + " or test_unreachable_accuracy" %}                 # [aarch64]
+
 test:
   requires:
     - pytest >=3.3.0
     - cython >=0.28.5
+    - pytest-xdist
+    - pytest-timeout
   imports:
     - sklearn
   commands:
     - set OPENBLAS_NUM_THREADS=1          # [win]
+    - set OMP_NUM_THREADS=1               # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
-    - pytest --verbose --pyargs sklearn  # [not (aarch64 or ppc64le)]
-    - pytest --verbose --pyargs sklearn -k 'not test_estimate_bandwidth_1sample'  # [aarch64 or ppc64le]
+    - export OMP_NUM_THREADS=1            # [not win]
+    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"
 
 about:
   home: http://scikit-learn.org/
