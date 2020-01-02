@@ -1,4 +1,4 @@
-{% set version = "0.22" %}
+{% set version = "0.22.1" %}
 {% set variant = "openblas" %}
 
 package:
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 6a495dbd5aac1f89d1ed51140fc41adb1f892293492b51b667eb5c40df1bde48
+  sha256: 7132d376a5cb605847022724e9a5dd294bd7c8a988e686b954fdeb00e24fe302
 
 build:
-  number: 1
+  number: 0
   skip: True  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
