@@ -1,4 +1,4 @@
-{% set version = "0.22.1" %}
+{% set version = "0.22.2" %}
 {% set variant = "openblas" %}
 
 package:
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 7132d376a5cb605847022724e9a5dd294bd7c8a988e686b954fdeb00e24fe302
+  sha256: 54ae27be30ef26718c9e517c4c8f23b6af26c66e52cf16d38799ba4262d4fd3b
 
 build:
-  number: 1
-  skip: True  # [py2k]
+  number: 0
+  skip: true  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
@@ -44,8 +44,8 @@ requirements:
 
 # Some tests take alot of memory, and seem to cause segfaults when memory runs out
 {% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
-{% set test_cpus = 4 %}          # [ppc64le]
-{% set test_cpus = 8 %}          # [aarch64]
+{% set test_cpus = 4 %}  # [ppc64le]
+{% set test_cpus = 8 %}  # [aarch64]
 
 {% set tests_to_skip = "_not_a_real_test" %}
 # Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
