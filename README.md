@@ -257,4 +257,4 @@ Feedstock Maintainers
 * [@ocefpaf](https://github.com/ocefpaf/)
 * [@ogrisel](https://github.com/ogrisel/)
 * [@rth](https://github.com/rth/)
-
+* [@jeremiedbb](https://github.com/jeremiedbb)
