@@ -250,6 +250,7 @@ Feedstock Maintainers
 * [@adrinjalali](https://github.com/adrinjalali/)
 * [@amueller](https://github.com/amueller/)
 * [@astaric](https://github.com/astaric/)
+* [@glemaitre](https://github.com/glemaitre/)
 * [@jakirkham](https://github.com/jakirkham/)
 * [@jnothman](https://github.com/jnothman/)
 * [@lesteve](https://github.com/lesteve/)
