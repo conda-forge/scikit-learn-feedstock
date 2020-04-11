@@ -11,8 +11,7 @@ source:
 
 build:
   number: 1
-  # scipy segfaults on pypy on ppc64le
-  skip: true  # [py2k or (python_impl=="pypy" and ppc64le)]
+  skip: true  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
