@@ -8,6 +8,8 @@ package:
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: c6c57326941b1854112e6730961f31995ea60fa254e79daae1994e4cd5cb6f44
+  patches:
+    - gh17054.patch
 
 build:
   number: 1
