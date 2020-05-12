@@ -1,4 +1,4 @@
-{% set version = "0.19.1" %}
+{% set version = "0.23.0" %}
 {% set variant = "openblas" %}
 
 package:
@@ -7,47 +7,72 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 2947f531ad52e81b2436b26608d8198778ac0b4baa7d2925db8b3b3fcb39c8a2
+  sha256: ec3fcbdb27aeb3f91b5fba5f6aa0967074d96ae77472bc5b06e65db4a1f8cd0c
 
 build:
-  number: 201
-  # We lack openblas on Windows, and therefore can't build numpy there either currently.
-  skip: true  # [win]
-  features:
-    - blas_{{ variant }}
+  number: 0
+  skip: true  # [py2k]
+  script:
+    - rm $PREFIX/include/cblas.h  # [not win]
+    - del /f %LIBRARY_INC%\cblas.h  # [win]
+    # build the C files in parallel. This helps beat the
+    # time limit consistently on drone.io
+    - {{ PYTHON }} setup.py build_ext -j{{ CPU_COUNT }}
+    - {{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - llvm-openmp  # [osx]
+  host:
     - python
-    - cython
+    - pip
+    - llvm-openmp  # [osx]
+    - cython >=0.28.5
+    - libcblas
+    - numpy
+    - scipy >=0.17.0
+    - joblib >=0.11
     - threadpoolctl
-    - joblib
-    - setuptools
-    - blas 1.1 {{ variant }}
-    - openblas 0.2.20|0.2.20.*
-    - numpy 1.13.*  # [not (win and py36)]
-    - numpy 1.13.*  # [win and py36]
-    - scipy
-    - nose
   run:
     - python
-    - blas 1.1 {{ variant }}
-    - openblas 0.2.20|0.2.20.*
-    - numpy >=1.13  # [not (win and py36)]
-    - numpy >=1.13  # [win and py36]
+    - llvm-openmp  # [osx]
+    - {{ pin_compatible('numpy') }}
     - scipy
+    - joblib >=0.11
     - threadpoolctl
-    - joblib
+
+
+# Some tests take alot of memory, and seem to cause segfaults when memory runs out
+{% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
+{% set test_cpus = 4 %}  # [ppc64le]
+{% set test_cpus = 8 %}  # [aarch64]
+
+{% set tests_to_skip = "_not_a_real_test" %}
+# Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
+{% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}               # [ppc64le]
+# Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
+{% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}                         # [aarch64]
+# Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
+{% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}       # [linux]
+# Occasionally fails on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15825
+{% set tests_to_skip = tests_to_skip + " or test_unreachable_accuracy" %}                 # [aarch64]
 
 test:
   requires:
-    - nose
+    - pytest >=3.3.0
+    - cython >=0.28.5
+    - pytest-xdist
+    - pytest-timeout
   imports:
     - sklearn
   commands:
-    - nosetests sklearn --exe
-    - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
-    - conda inspect objects -p $PREFIX scikit-learn  # [osx]
+    - set OPENBLAS_NUM_THREADS=1          # [win]
+    - set OMP_NUM_THREADS=1               # [win]
+    - export OPENBLAS_NUM_THREADS=1       # [not win]
+    - export OMP_NUM_THREADS=1            # [not win]
+    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"
 
 about:
   home: http://scikit-learn.org/
@@ -63,3 +88,8 @@ extra:
     - ogrisel
     - ocefpaf
     - lesteve
+    - jnothman
+    - rth
+    - adrinjalali
+    - glemaitre
+    - jeremiedbb
