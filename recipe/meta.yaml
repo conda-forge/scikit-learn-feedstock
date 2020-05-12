@@ -20,20 +20,24 @@ requirements:
   build:
     - python
     - cython
+    - threadpoolctl
+    - joblib
     - setuptools
     - blas 1.1 {{ variant }}
     - openblas 0.2.20|0.2.20.*
-    - numpy 1.9.*  # [not (win and py36)]
-    - numpy 1.11.*  # [win and py36]
+    - numpy 1.13.*  # [not (win and py36)]
+    - numpy 1.13.*  # [win and py36]
     - scipy
     - nose
   run:
     - python
     - blas 1.1 {{ variant }}
     - openblas 0.2.20|0.2.20.*
-    - numpy >=1.9  # [not (win and py36)]
-    - numpy >=1.11  # [win and py36]
+    - numpy >=1.13  # [not (win and py36)]
+    - numpy >=1.13  # [win and py36]
     - scipy
+    - threadpoolctl
+    - joblib
 
 test:
   requires:
