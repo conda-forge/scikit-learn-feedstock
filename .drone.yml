@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: linux_aarch64_python3.6
+name: linux_aarch64_python3.6.____cpython
 
 platform:
   os: linux
@@ -10,11 +10,15 @@ steps:
 - name: Install and build
   image: condaforge/linux-anvil-aarch64
   environment:
-    CONFIG: linux_aarch64_python3.6
+    CONFIG: linux_aarch64_python3.6.____cpython
     UPLOAD_PACKAGES: True
     PLATFORM: linux-aarch64
-    BINSTAR_TOKEN: 
+    BINSTAR_TOKEN:
       from_secret: BINSTAR_TOKEN
+    FEEDSTOCK_TOKEN:
+      from_secret: FEEDSTOCK_TOKEN
+    STAGING_BINSTAR_TOKEN:
+      from_secret: STAGING_BINSTAR_TOKEN
   commands:
     - export FEEDSTOCK_ROOT="$DRONE_WORKSPACE"
     - export RECIPE_ROOT="$FEEDSTOCK_ROOT/recipe"
@@ -26,7 +30,7 @@ steps:
 
 ---
 kind: pipeline
-name: linux_aarch64_python3.7
+name: linux_aarch64_python3.7.____cpython
 
 platform:
   os: linux
@@ -36,11 +40,15 @@ steps:
 - name: Install and build
   image: condaforge/linux-anvil-aarch64
   environment:
-    CONFIG: linux_aarch64_python3.7
+    CONFIG: linux_aarch64_python3.7.____cpython
     UPLOAD_PACKAGES: True
     PLATFORM: linux-aarch64
-    BINSTAR_TOKEN: 
+    BINSTAR_TOKEN:
       from_secret: BINSTAR_TOKEN
+    FEEDSTOCK_TOKEN:
+      from_secret: FEEDSTOCK_TOKEN
+    STAGING_BINSTAR_TOKEN:
+      from_secret: STAGING_BINSTAR_TOKEN
   commands:
     - export FEEDSTOCK_ROOT="$DRONE_WORKSPACE"
     - export RECIPE_ROOT="$FEEDSTOCK_ROOT/recipe"
@@ -52,7 +60,7 @@ steps:
 
 ---
 kind: pipeline
-name: linux_aarch64_python3.8
+name: linux_aarch64_python3.8.____cpython
 
 platform:
   os: linux
@@ -62,11 +70,15 @@ steps:
 - name: Install and build
   image: condaforge/linux-anvil-aarch64
   environment:
-    CONFIG: linux_aarch64_python3.8
+    CONFIG: linux_aarch64_python3.8.____cpython
     UPLOAD_PACKAGES: True
     PLATFORM: linux-aarch64
-    BINSTAR_TOKEN: 
+    BINSTAR_TOKEN:
       from_secret: BINSTAR_TOKEN
+    FEEDSTOCK_TOKEN:
+      from_secret: FEEDSTOCK_TOKEN
+    STAGING_BINSTAR_TOKEN:
+      from_secret: STAGING_BINSTAR_TOKEN
   commands:
     - export FEEDSTOCK_ROOT="$DRONE_WORKSPACE"
     - export RECIPE_ROOT="$FEEDSTOCK_ROOT/recipe"
