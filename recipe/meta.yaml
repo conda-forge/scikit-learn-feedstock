@@ -1,4 +1,4 @@
-{% set version = "0.22.2.post1" %}
+{% set version = "0.23.0" %}
 {% set variant = "openblas" %}
 
 package:
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: c6c57326941b1854112e6730961f31995ea60fa254e79daae1994e4cd5cb6f44
+  sha256: ec3fcbdb27aeb3f91b5fba5f6aa0967074d96ae77472bc5b06e65db4a1f8cd0c
 
 build:
   number: 0
@@ -34,12 +34,14 @@ requirements:
     - numpy
     - scipy >=0.17.0
     - joblib >=0.11
+    - threadpoolctl
   run:
     - python
     - llvm-openmp  # [osx]
     - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=0.11
+    - threadpoolctl
 
 
 # Some tests take alot of memory, and seem to cause segfaults when memory runs out
@@ -74,7 +76,7 @@ test:
 
 about:
   home: http://scikit-learn.org/
-  license: BSD 3-Clause
+  license: BSD-3-Clause
   license_file: COPYING
   summary: A set of python modules for machine learning and data mining
 
