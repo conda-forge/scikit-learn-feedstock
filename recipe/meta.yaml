@@ -12,7 +12,7 @@ source:
     - pr_17201.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
