@@ -1,5 +1,5 @@
 diff --git a/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx b/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx
-index 984cc6767f..2952762933 100644
+index 984cc6767f..49440adf09 100644
 --- a/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx
 +++ b/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx
 @@ -134,7 +134,7 @@ cdef class Splitter:
@@ -7,7 +7,7 @@ index 984cc6767f..2952762933 100644
          unsigned char missing_values_bin_idx
          const unsigned char [::1] has_missing_values
 -        const char [::1] monotonic_cst
-+        signed char [::1] monotonic_cst
++        const signed char [::1] monotonic_cst
          unsigned char hessians_are_constant
          Y_DTYPE_C l2_regularization
          Y_DTYPE_C min_hessian_to_split
@@ -16,7 +16,7 @@ index 984cc6767f..2952762933 100644
                   const unsigned char missing_values_bin_idx,
                   const unsigned char [::1] has_missing_values,
 -                 const char [::1] monotonic_cst,
-+                 signed char [::1] monotonic_cst,
++                 const signed char [::1] monotonic_cst,
                   Y_DTYPE_C l2_regularization,
                   Y_DTYPE_C min_hessian_to_split=1e-3,
                   unsigned int min_samples_leaf=20,
@@ -25,7 +25,7 @@ index 984cc6767f..2952762933 100644
              split_info_struct * split_infos
              const unsigned char [::1] has_missing_values = self.has_missing_values
 -            const char [::1] monotonic_cst = self.monotonic_cst
-+            signed char [::1] monotonic_cst = self.monotonic_cst
++            const signed char [::1] monotonic_cst = self.monotonic_cst
  
          with nogil:
  
