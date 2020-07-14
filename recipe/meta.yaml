@@ -1,4 +1,4 @@
-{% set version = "0.23.1" %}
+{% set version = "598ed4cbf906e4e39f25c7d4016932cbc0659585" %}
 {% set variant = "openblas" %}
 
 package:
