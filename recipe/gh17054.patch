@@ -1,0 +1,226 @@
+commit 582641ed378acd5722abfe2052ac163e7fcac1cf
+Author:     Gregory Lee <grlee77@gmail.com>
+AuthorDate: Sun Apr 26 19:22:04 2020 -0400
+Commit:     Isuru Fernando <isuruf@gmail.com>
+CommitDate: Sun Apr 26 21:31:25 2020 -0500
+
+    consistently call import_array() after cimport of numpy
+
+diff --git a/sklearn/_isotonic.pyx b/sklearn/_isotonic.pyx
+index c7486097d..75c4bbef1 100644
+--- a/sklearn/_isotonic.pyx
++++ b/sklearn/_isotonic.pyx
+@@ -11,6 +11,8 @@ cimport numpy as np
+ cimport cython
+ from cython cimport floating
+ 
++np.import_array()
++
+ 
+ def _inplace_contiguous_isotonic_regression(floating[::1] y, floating[::1] w):
+     cdef:
+diff --git a/sklearn/cluster/_dbscan_inner.pyx b/sklearn/cluster/_dbscan_inner.pyx
+index a348bf59d..b9a80686a 100644
+--- a/sklearn/cluster/_dbscan_inner.pyx
++++ b/sklearn/cluster/_dbscan_inner.pyx
+@@ -9,6 +9,8 @@ from libcpp.vector cimport vector
+ cimport numpy as np
+ import numpy as np
+ 
++np.import_array()
++
+ 
+ # Work around Cython bug: C++ exceptions are not caught unless thrown within
+ # a cdef function with an "except +" declaration.
+diff --git a/sklearn/ensemble/_hist_gradient_boosting/_binning.pyx b/sklearn/ensemble/_hist_gradient_boosting/_binning.pyx
+index 1ecee3c9e..4e11abfca 100644
+--- a/sklearn/ensemble/_hist_gradient_boosting/_binning.pyx
++++ b/sklearn/ensemble/_hist_gradient_boosting/_binning.pyx
+@@ -16,6 +16,9 @@ from libc.math cimport isnan
+ 
+ from .common cimport X_DTYPE_C, X_BINNED_DTYPE_C
+ 
++np.import_array()
++
++
+ def _map_to_bins(const X_DTYPE_C [:, :] data,
+                  list binning_thresholds,
+                  const unsigned char missing_values_bin_idx,
+diff --git a/sklearn/ensemble/_hist_gradient_boosting/_gradient_boosting.pyx b/sklearn/ensemble/_hist_gradient_boosting/_gradient_boosting.pyx
+index 8d307c380..18f1b6a36 100644
+--- a/sklearn/ensemble/_hist_gradient_boosting/_gradient_boosting.pyx
++++ b/sklearn/ensemble/_hist_gradient_boosting/_gradient_boosting.pyx
+@@ -13,6 +13,8 @@ cimport numpy as np
+ from .common import Y_DTYPE
+ from .common cimport Y_DTYPE_C
+ 
++np.import_array()
++
+ 
+ def _update_raw_predictions(
+         Y_DTYPE_C [::1] raw_predictions,  # OUT
+diff --git a/sklearn/ensemble/_hist_gradient_boosting/_loss.pyx b/sklearn/ensemble/_hist_gradient_boosting/_loss.pyx
+index 418a9124d..7e3dbd148 100644
+--- a/sklearn/ensemble/_hist_gradient_boosting/_loss.pyx
++++ b/sklearn/ensemble/_hist_gradient_boosting/_loss.pyx
+@@ -15,6 +15,8 @@ from libc.math cimport exp
+ from .common cimport Y_DTYPE_C
+ from .common cimport G_H_DTYPE_C
+ 
++np.import_array()
++
+ 
+ def _update_gradients_least_squares(
+         G_H_DTYPE_C [::1] gradients,  # OUT
+diff --git a/sklearn/ensemble/_hist_gradient_boosting/_predictor.pyx b/sklearn/ensemble/_hist_gradient_boosting/_predictor.pyx
+index b3234cb5b..d346aabda 100644
+--- a/sklearn/ensemble/_hist_gradient_boosting/_predictor.pyx
++++ b/sklearn/ensemble/_hist_gradient_boosting/_predictor.pyx
+@@ -18,6 +18,8 @@ from .common import Y_DTYPE
+ from .common cimport X_BINNED_DTYPE_C
+ from .common cimport node_struct
+ 
++np.import_array()
++
+ 
+ def _predict_from_numeric_data(
+         node_struct [:] nodes,
+diff --git a/sklearn/ensemble/_hist_gradient_boosting/common.pxd b/sklearn/ensemble/_hist_gradient_boosting/common.pxd
+index fa78f2024..3ae5cc396 100644
+--- a/sklearn/ensemble/_hist_gradient_boosting/common.pxd
++++ b/sklearn/ensemble/_hist_gradient_boosting/common.pxd
+@@ -2,6 +2,8 @@
+ import numpy as np
+ cimport numpy as np
+ 
++np.import_array()
++
+ 
+ ctypedef np.npy_float64 X_DTYPE_C
+ ctypedef np.npy_uint8 X_BINNED_DTYPE_C
+diff --git a/sklearn/ensemble/_hist_gradient_boosting/histogram.pyx b/sklearn/ensemble/_hist_gradient_boosting/histogram.pyx
+index 740e5e002..8bd7c4ee8 100644
+--- a/sklearn/ensemble/_hist_gradient_boosting/histogram.pyx
++++ b/sklearn/ensemble/_hist_gradient_boosting/histogram.pyx
+@@ -17,6 +17,8 @@ from .common cimport hist_struct
+ from .common cimport X_BINNED_DTYPE_C
+ from .common cimport G_H_DTYPE_C
+ 
++np.import_array()
++
+ # Notes:
+ # - IN views are read-only, OUT views are write-only
+ # - In a lot of functions here, we pass feature_idx and the whole 2d
+diff --git a/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx b/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx
+index 0e74d6ba3..795e2cb22 100644
+--- a/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx
++++ b/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx
+@@ -25,6 +25,8 @@ from .common cimport Y_DTYPE_C
+ from .common cimport hist_struct
+ from .common import HISTOGRAM_DTYPE
+ 
++np.import_array()
++
+ 
+ cdef struct split_info_struct:
+     # Same as the SplitInfo class, but we need a C struct to use it in the
+diff --git a/sklearn/linear_model/_sag_fast.pyx.tp b/sklearn/linear_model/_sag_fast.pyx.tp
+index 5758a8e5e..141890497 100644
+--- a/sklearn/linear_model/_sag_fast.pyx.tp
++++ b/sklearn/linear_model/_sag_fast.pyx.tp
+@@ -58,6 +58,7 @@ from ..utils._seq_dataset cimport SequentialDataset32, SequentialDataset64
+ 
+ from libc.stdio cimport printf
+ 
++np.import_array()
+ 
+ 
+ {{for name, c_type, np_type in get_dispatch(dtypes)}}
+diff --git a/sklearn/manifold/_barnes_hut_tsne.pyx b/sklearn/manifold/_barnes_hut_tsne.pyx
+index ec80890fd..b15462e59 100644
+--- a/sklearn/manifold/_barnes_hut_tsne.pyx
++++ b/sklearn/manifold/_barnes_hut_tsne.pyx
+@@ -18,6 +18,8 @@ from cython.parallel cimport prange, parallel
+ 
+ from ..neighbors._quad_tree cimport _QuadTree
+ 
++np.import_array()
++
+ 
+ cdef char* EMPTY_STRING = ""
+ 
+diff --git a/sklearn/manifold/_utils.pyx b/sklearn/manifold/_utils.pyx
+index 676d3676f..0cc2b0af1 100644
+--- a/sklearn/manifold/_utils.pyx
++++ b/sklearn/manifold/_utils.pyx
+@@ -5,6 +5,10 @@ cimport cython
+ import numpy as np
+ cimport numpy as np
+ from libc.stdio cimport printf
++
++np.import_array()
++
++
+ cdef extern from "numpy/npy_math.h":
+     float NPY_INFINITY
+ 
+diff --git a/sklearn/neighbors/_typedefs.pyx b/sklearn/neighbors/_typedefs.pyx
+index bbdfd0050..789afb499 100644
+--- a/sklearn/neighbors/_typedefs.pyx
++++ b/sklearn/neighbors/_typedefs.pyx
+@@ -4,6 +4,9 @@ import numpy as np
+ cimport numpy as np
+ from libc.math cimport sqrt
+ 
++np.import_array()
++
++
+ # use a hack to determine the associated numpy data types
+ # NOTE: the following requires the buffer interface, only available in
+ #       numpy 1.5+.  We'll choose the DTYPE by hand instead.
+diff --git a/sklearn/preprocessing/_csr_polynomial_expansion.pyx b/sklearn/preprocessing/_csr_polynomial_expansion.pyx
+index dd36f8321..84fef3f04 100644
+--- a/sklearn/preprocessing/_csr_polynomial_expansion.pyx
++++ b/sklearn/preprocessing/_csr_polynomial_expansion.pyx
+@@ -8,6 +8,7 @@ from scipy.sparse import csr_matrix
+ from numpy cimport ndarray
+ cimport numpy as np
+ 
++np.import_array()
+ ctypedef np.int32_t INDEX_T
+ 
+ ctypedef fused DATA_T:
+diff --git a/sklearn/svm/_libsvm_sparse.pyx b/sklearn/svm/_libsvm_sparse.pyx
+index f180560f1..4b5070a64 100644
+--- a/sklearn/svm/_libsvm_sparse.pyx
++++ b/sklearn/svm/_libsvm_sparse.pyx
+@@ -4,6 +4,8 @@ cimport numpy as np
+ from scipy import sparse
+ from ..exceptions import ConvergenceWarning
+ 
++np.import_array()
++
+ 
+ cdef extern from *:
+     ctypedef char* const_char_p "const char*"
+@@ -186,7 +188,7 @@ def libsvm_sparse_train ( int n_features,
+ 
+     # copy model.nSV
+     # TODO: do only in classification
+-    cdef np.ndarray n_class_SV 
++    cdef np.ndarray n_class_SV
+     n_class_SV = np.empty(n_class, dtype=np.int32)
+     copy_nSV(n_class_SV.data, model)
+ 
+diff --git a/sklearn/utils/_logistic_sigmoid.pyx b/sklearn/utils/_logistic_sigmoid.pyx
+index 4ca32193c..3531d99bc 100644
+--- a/sklearn/utils/_logistic_sigmoid.pyx
++++ b/sklearn/utils/_logistic_sigmoid.pyx
+@@ -7,6 +7,7 @@ from libc.math cimport log, exp
+ import numpy as np
+ cimport numpy as np
+ 
++np.import_array()
+ ctypedef np.float64_t DTYPE_t
+ 
+ 
