@@ -46,7 +46,7 @@ requirements:
 
 # Some tests take alot of memory, and seem to cause segfaults when memory runs out
 {% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
-{% set test_cpus = 4 %}  # [ppc64le]
+{% set test_cpus = 2 %}  # [ppc64le]
 {% set test_cpus = 8 %}  # [aarch64]
 
 {% set tests_to_skip = "_not_a_real_test" %}
