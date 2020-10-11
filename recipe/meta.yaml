@@ -72,7 +72,8 @@ test:
     - set OMP_NUM_THREADS=1               # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - export OMP_NUM_THREADS=1            # [not win]
-    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"
+    # Skipping testing in Travis-CI for ppc64le pypy
+    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"    # [not (CI == "travis" and ppc64le and python_impl=="pypy")]
 
 about:
   home: http://scikit-learn.org/
