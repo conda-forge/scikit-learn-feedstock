@@ -10,7 +10,7 @@ source:
   sha256: 26f56e0c5aac4811f5a90109c4eed0396ee196d8383608b9bf33129528e6fcfd
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
@@ -46,7 +46,7 @@ requirements:
 
 # Some tests take alot of memory, and seem to cause segfaults when memory runs out
 {% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
-{% set test_cpus = 4 %}  # [ppc64le]
+{% set test_cpus = 2 %}  # [ppc64le]
 {% set test_cpus = 8 %}  # [aarch64]
 
 {% set tests_to_skip = "_not_a_real_test" %}
@@ -72,7 +72,8 @@ test:
     - set OMP_NUM_THREADS=1               # [win]
     - export OPENBLAS_NUM_THREADS=1       # [not win]
     - export OMP_NUM_THREADS=1            # [not win]
-    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"
+    # Skipping testing in Travis-CI for ppc64le pypy
+    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"    # [not (CI == "travis" and ppc64le and python_impl=="pypy")]
 
 about:
   home: http://scikit-learn.org/

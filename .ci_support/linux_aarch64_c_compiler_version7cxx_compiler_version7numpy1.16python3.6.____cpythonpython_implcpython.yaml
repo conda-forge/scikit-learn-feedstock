@@ -1,11 +1,23 @@
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 c_compiler:
-- vs2017
+- gcc
+c_compiler_version:
+- '7'
+cdt_arch:
+- aarch64
+cdt_name:
+- cos7
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2017
+- gxx
+cxx_compiler_version:
+- '7'
+docker_image:
+- condaforge/linux-anvil-aarch64
 libcblas:
 - 3.8 *netlib
 numpy:
@@ -19,8 +31,10 @@ python:
 python_impl:
 - cpython
 target_platform:
-- win-64
+- linux-aarch64
 zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 - - numpy
   - python
   - python_impl
