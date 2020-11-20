@@ -1,5 +1,4 @@
 {% set version = "0.23.2" %}
-{% set variant = "openblas" %}
 
 package:
   name: scikit-learn
@@ -8,9 +7,11 @@ package:
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 26f56e0c5aac4811f5a90109c4eed0396ee196d8383608b9bf33129528e6fcfd
+  patches:
+    - 0001-Support-cross-compiling-using-benfogle-crossenv.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]

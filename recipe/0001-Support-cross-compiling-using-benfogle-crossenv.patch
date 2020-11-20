@@ -1,0 +1,32 @@
+From 8294a9b05bccdd1836279d4619d98815d9b8ba12 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Fri, 20 Nov 2020 13:04:52 -0600
+Subject: [PATCH] Support cross compiling using benfogle/crossenv
+
+---
+ sklearn/_build_utils/pre_build_helpers.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/sklearn/_build_utils/pre_build_helpers.py b/sklearn/_build_utils/pre_build_helpers.py
+index 5749e227a..e93dd6d4f 100644
+--- a/sklearn/_build_utils/pre_build_helpers.py
++++ b/sklearn/_build_utils/pre_build_helpers.py
+@@ -73,10 +73,11 @@ def compile_test_program(code, extra_preargs=[], extra_postargs=[]):
+                                       extra_preargs=extra_preargs,
+                                       extra_postargs=extra_postargs)
+ 
+-            # Run test program
+-            # will raise a CalledProcessError if return code was non-zero
+-            output = subprocess.check_output('./test_program')
+-            output = output.decode(sys.stdout.encoding or 'utf-8').splitlines()
++            if "PYTHON_CROSSENV" not in os.environ:
++                # Run test program if not cross compiling
++                # will raise a CalledProcessError if return code was non-zero
++                output = subprocess.check_output('./test_program')
++                output = output.decode(sys.stdout.encoding or 'utf-8').splitlines()
+         except Exception:
+             raise
+         finally:
+-- 
+2.28.0
+
