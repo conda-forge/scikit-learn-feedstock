@@ -1,17 +1,31 @@
-From 8294a9b05bccdd1836279d4619d98815d9b8ba12 Mon Sep 17 00:00:00 2001
+From 59bbf539d3b9c13189225bc7612d4228c1ca62d8 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Nov 2020 13:04:52 -0600
 Subject: [PATCH] Support cross compiling using benfogle/crossenv
 
 ---
- sklearn/_build_utils/pre_build_helpers.py | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ sklearn/_build_utils/openmp_helpers.py    |  2 ++
+ sklearn/_build_utils/pre_build_helpers.py | 11 +++++++----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
+diff --git a/sklearn/_build_utils/openmp_helpers.py b/sklearn/_build_utils/openmp_helpers.py
+index 70e9f1f49..ee7f5dea2 100644
+--- a/sklearn/_build_utils/openmp_helpers.py
++++ b/sklearn/_build_utils/openmp_helpers.py
+@@ -77,6 +77,8 @@ def check_openmp_support():
+         if 'nthreads=' in output[0]:
+             nthreads = int(output[0].strip().split('=')[1])
+             openmp_supported = len(output) == nthreads
++        elif "PYTHON_CROSSENV" in os.environ:
++            openmp_supported = True
+         else:
+             openmp_supported = False
+ 
 diff --git a/sklearn/_build_utils/pre_build_helpers.py b/sklearn/_build_utils/pre_build_helpers.py
-index 5749e227a..e93dd6d4f 100644
+index 5749e227a..df6a231e7 100644
 --- a/sklearn/_build_utils/pre_build_helpers.py
 +++ b/sklearn/_build_utils/pre_build_helpers.py
-@@ -73,10 +73,11 @@ def compile_test_program(code, extra_preargs=[], extra_postargs=[]):
+@@ -73,10 +73,13 @@ def compile_test_program(code, extra_preargs=[], extra_postargs=[]):
                                        extra_preargs=extra_preargs,
                                        extra_postargs=extra_postargs)
  
@@ -24,6 +38,8 @@ index 5749e227a..e93dd6d4f 100644
 +                # will raise a CalledProcessError if return code was non-zero
 +                output = subprocess.check_output('./test_program')
 +                output = output.decode(sys.stdout.encoding or 'utf-8').splitlines()
++            else:
++                output = []
          except Exception:
              raise
          finally:
