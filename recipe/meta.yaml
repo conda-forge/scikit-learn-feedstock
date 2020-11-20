@@ -26,13 +26,13 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - cython                                 # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
+    - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - llvm-openmp  # [osx]
   host:
     - python
     - pip
-    - llvm-openmp  # [osx]
     - cython >=0.28.5
     - libcblas
     - numpy
@@ -41,7 +41,6 @@ requirements:
     - threadpoolctl
   run:
     - python
-    - llvm-openmp  # [osx]
     - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=0.11
