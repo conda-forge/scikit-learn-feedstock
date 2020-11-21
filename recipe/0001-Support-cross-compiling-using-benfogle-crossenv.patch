@@ -1,0 +1,52 @@
+From 678c5afbf29bbe34dec652812bd83eb766b3ec78 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Fri, 20 Nov 2020 13:04:52 -0600
+Subject: [PATCH] Support cross compiling using benfogle/crossenv
+
+---
+ sklearn/_build_utils/openmp_helpers.py    |  4 +++-
+ sklearn/_build_utils/pre_build_helpers.py | 11 +++++++----
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/sklearn/_build_utils/openmp_helpers.py b/sklearn/_build_utils/openmp_helpers.py
+index 70e9f1f49..6eb839b27 100644
+--- a/sklearn/_build_utils/openmp_helpers.py
++++ b/sklearn/_build_utils/openmp_helpers.py
+@@ -74,9 +74,11 @@ def check_openmp_support():
+                                       extra_preargs=extra_preargs,
+                                       extra_postargs=extra_postargs)
+ 
+-        if 'nthreads=' in output[0]:
++        if output and 'nthreads=' in output[0]:
+             nthreads = int(output[0].strip().split('=')[1])
+             openmp_supported = len(output) == nthreads
++        elif "PYTHON_CROSSENV" in os.environ:
++            openmp_supported = True
+         else:
+             openmp_supported = False
+ 
+diff --git a/sklearn/_build_utils/pre_build_helpers.py b/sklearn/_build_utils/pre_build_helpers.py
+index 5749e227a..df6a231e7 100644
+--- a/sklearn/_build_utils/pre_build_helpers.py
++++ b/sklearn/_build_utils/pre_build_helpers.py
+@@ -73,10 +73,13 @@ def compile_test_program(code, extra_preargs=[], extra_postargs=[]):
+                                       extra_preargs=extra_preargs,
+                                       extra_postargs=extra_postargs)
+ 
+-            # Run test program
+-            # will raise a CalledProcessError if return code was non-zero
+-            output = subprocess.check_output('./test_program')
+-            output = output.decode(sys.stdout.encoding or 'utf-8').splitlines()
++            if "PYTHON_CROSSENV" not in os.environ:
++                # Run test program if not cross compiling
++                # will raise a CalledProcessError if return code was non-zero
++                output = subprocess.check_output('./test_program')
++                output = output.decode(sys.stdout.encoding or 'utf-8').splitlines()
++            else:
++                output = []
+         except Exception:
+             raise
+         finally:
+-- 
+2.28.0
+
