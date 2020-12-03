@@ -12,7 +12,7 @@ source:
   sha256: d1d993146faa282ca2ef37a5a0ab7ee83f9b0d970d310e1170fd757c3ee55519
 
 build:
-  number: 202
+  number: 203
   # We lack scipy on Windows, and therefore can't build numpy there either currently.
   skip: true  # [win]
   features:
