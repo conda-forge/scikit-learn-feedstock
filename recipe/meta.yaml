@@ -1,58 +1,85 @@
-{% set version = "0.20rc1" %}
-{% set name = "scikit-learn" %}
-{% set variant = "openblas" %}
+{% set version = "0.24.0rc1" %}
 
 package:
-  name: {{ name }}
+  name: scikit-learn
   version: {{ version }}
 
 source:
-  fn: {{ version }}.tar.gz
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: d1d993146faa282ca2ef37a5a0ab7ee83f9b0d970d310e1170fd757c3ee55519
+  sha256: d44e568114edbd341e5b5e901f7b43c91ef55850da2cf092ee7b018230c0e1f9
 
 build:
-  number: 202
-  # We lack scipy on Windows, and therefore can't build numpy there either currently.
-  skip: true  # [win]
-  features:
-    - blas_{{ variant }}
-  script: python -m pip install --no-deps --ignore-installed .  --verbose
+  number: 0
+  skip: true  # [py2k]
+  script:
+    - rm $PREFIX/include/cblas.h  # [not win]
+    - del /f %LIBRARY_INC%\cblas.h  # [win]
+    # build the C files in parallel. This helps beat the
+    # time limit consistently on drone.io
+    - {{ PYTHON }} setup.py build_ext -j{{ CPU_COUNT }}
+    - {{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
+    - python                                 # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - cython                                 # [build_platform != target_platform]
+    - numpy                                  # [build_platform != target_platform]
+    - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - llvm-openmp  # [osx]
   host:
-    - pip
     - python
-    - cython
-    - setuptools
-    - blas 1.1 {{ variant }}
-    - openblas
+    - pip
+    - cython >=0.28.5
+    - libcblas
     - numpy
-    - scipy
-    - pytest
+    - scipy >=0.17.0
+    - joblib >=0.11
+    - threadpoolctl
   run:
     - python
-    - blas 1.1 {{ variant }}
-    - openblas
     - {{ pin_compatible('numpy') }}
     - scipy
+    - joblib >=0.11
+    - threadpoolctl
+
+
+# Some tests take alot of memory, and seem to cause segfaults when memory runs out
+{% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
+{% set test_cpus = 2 %}  # [ppc64le]
+{% set test_cpus = 8 %}  # [aarch64]
+
+{% set tests_to_skip = "_not_a_real_test" %}
+# Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
+{% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}               # [ppc64le]
+# Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
+{% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}                         # [aarch64]
+# Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
+{% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}       # [linux]
+# Occasionally fails on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15825
+{% set tests_to_skip = tests_to_skip + " or test_unreachable_accuracy" %}                 # [aarch64]
 
 test:
   requires:
-    - pytest
+    - pytest >=3.3.0
+    - cython >=0.28.5
+    - pytest-xdist
+    - pytest-timeout
   imports:
     - sklearn
   commands:
-    - pytest --pyargs sklearn
-    - conda inspect linkages -p $PREFIX scikit-learn  # [not win]
-    - conda inspect objects -p $PREFIX scikit-learn  # [osx]
+    - set OPENBLAS_NUM_THREADS=1          # [win]
+    - set OMP_NUM_THREADS=1               # [win]
+    - export OPENBLAS_NUM_THREADS=1       # [not win]
+    - export OMP_NUM_THREADS=1            # [not win]
+    # Skipping testing in Travis-CI for ppc64le pypy
+    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"    # [not (CI == "travis" and ppc64le and python_impl=="pypy")]
 
 about:
   home: http://scikit-learn.org/
-  license: BSD 3-Clause
+  license: BSD-3-Clause
   license_file: COPYING
   summary: A set of python modules for machine learning and data mining
 
@@ -64,3 +91,8 @@ extra:
     - ogrisel
     - ocefpaf
     - lesteve
+    - jnothman
+    - rth
+    - adrinjalali
+    - glemaitre
+    - jeremiedbb
