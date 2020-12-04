@@ -47,8 +47,8 @@ requirements:
 
 
 # Some tests take alot of memory, and seem to cause segfaults when memory runs out
-{% set xdist_args = -n {{ CPU_COUNT }} %} # [not (ppc64le or python_impl=="pypy")]
-{% set xdist_args = "" %} # [(ppc64le or python_impl=="pypy")]
+{% set xdist_args = "-n {{ CPU_COUNT }}" %}  # [not (ppc64le or python_impl=="pypy")]
+{% set xdist_args = "" %}  # [(ppc64le or python_impl=="pypy")]
 
 {% set tests_to_skip = "_not_a_real_test" %}
 # Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
