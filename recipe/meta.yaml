@@ -1,4 +1,4 @@
-{% set version = "0.23.2" %}
+{% set version = "0.24.0" %}
 
 package:
   name: scikit-learn
@@ -6,12 +6,10 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 26f56e0c5aac4811f5a90109c4eed0396ee196d8383608b9bf33129528e6fcfd
-  patches:
-    - 0001-Support-cross-compiling-using-benfogle-crossenv.patch
+  sha256: 2338fe6b0c87ebcb1a85d804d2a05840ff159913989f29efb8b0499c4b8803fa
 
 build:
-  number: 3
+  number: 0
   skip: true  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
@@ -62,6 +60,8 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}       # [linux]
 # Occasionally fails on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15825
 {% set tests_to_skip = tests_to_skip + " or test_unreachable_accuracy" %}                 # [aarch64]
+# Numerically unstable test numerical difference in test
+{% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}               # [ppc64le]
 
 test:
   requires:
