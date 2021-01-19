@@ -61,7 +61,10 @@ requirements:
 # Occasionally fails on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15825
 {% set tests_to_skip = tests_to_skip + " or test_unreachable_accuracy" %}                 # [aarch64]
 # Numerically unstable test numerical difference in test
-{% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}               # [ppc64le]
+{% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
+# https://github.com/scikit-learn/scikit-learn/issues/19111
+{% set tests_to_skip = tests_to_skip + " or test_compare_to_ELKI" %}i                     # [ppc64le]
+
 
 test:
   requires:
