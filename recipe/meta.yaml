@@ -1,4 +1,4 @@
-{% set version = "0.24.0" %}
+{% set version = "0.24.1" %}
 
 package:
   name: scikit-learn
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 2338fe6b0c87ebcb1a85d804d2a05840ff159913989f29efb8b0499c4b8803fa
+  sha256: a663dbe0feb04bd9949da315a3abc9ddf5ce84d4e07d16c5b96e0947ee56a4eb
 
 build:
   number: 0
@@ -63,7 +63,7 @@ requirements:
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
 # https://github.com/scikit-learn/scikit-learn/issues/19111
-{% set tests_to_skip = tests_to_skip + " or test_compare_to_ELKI" %}i                     # [ppc64le]
+{% set tests_to_skip = tests_to_skip + " or test_compare_to_ELKI" %}                      # [ppc64le]
 
 
 test:
