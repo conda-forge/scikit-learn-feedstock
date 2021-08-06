@@ -52,8 +52,8 @@ requirements:
 {% set test_cpus = 8 %}  # [aarch64]
 
 {% set tests_to_skip = "_not_a_real_test" %}
-# Fixed in 0.22.1 -- https://github.com/scikit-learn/scikit-learn/issues/15774
-{% set tests_to_skip = tests_to_skip + " or test_pca_dtype_preservation" %}               # [ppc64le]
+# https://github.com/scikit-learn/scikit-learn/issues/20335
+{% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
 # Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
 {% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}                         # [aarch64]
 # Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
@@ -64,7 +64,6 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
 # https://github.com/scikit-learn/scikit-learn/issues/19111
 {% set tests_to_skip = tests_to_skip + " or test_compare_to_ELKI" %}                      # [ppc64le]
-
 
 test:
   requires:
