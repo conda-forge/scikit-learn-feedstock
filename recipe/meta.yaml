@@ -64,6 +64,9 @@ test:
   commands:
     # Some tests take alot of memory, and seem to cause segfaults when memory runs out
     {% set cpus = 2 if ppc64le else (8 if aarch64 else CPU_COUNT) %}
+    # reduce contention for parallelism (xdist-workers, openblas, openmp) that
+    # actually increases the runtime and can lead to timeouts on drone/travis
+    - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
     - pytest -v --pyargs sklearn -k "not ({{ tests_to_skip }})" -n {{ cpus }} --durations=50
 
 about:
