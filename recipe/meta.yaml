@@ -47,25 +47,11 @@ requirements:
     - joblib >=0.11
     - threadpoolctl
 
-
-# Some tests take alot of memory, and seem to cause segfaults when memory runs out
-{% set test_cpus = CPU_COUNT %}  # [not (aarch64 or ppc64le)]
-{% set test_cpus = 2 %}  # [ppc64le]
-{% set test_cpus = 8 %}  # [aarch64]
-
 {% set tests_to_skip = "_not_a_real_test" %}
 # https://github.com/scikit-learn/scikit-learn/issues/20335
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
-# Can fail on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15821
-{% set tests_to_skip = tests_to_skip + " or test_uniform_grid" %}                         # [aarch64]
-# Can fail -- https://github.com/scikit-learn/scikit-learn/issues/15818
-{% set tests_to_skip = tests_to_skip + " or test_sag_regressor_computed_correct" %}       # [linux]
-# Occasionally fails on aarch64 -- https://github.com/scikit-learn/scikit-learn/issues/15825
-{% set tests_to_skip = tests_to_skip + " or test_unreachable_accuracy" %}                 # [aarch64]
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
-# https://github.com/scikit-learn/scikit-learn/issues/19111
-{% set tests_to_skip = tests_to_skip + " or test_compare_to_ELKI" %}                      # [ppc64le]
 
 test:
   requires:
@@ -76,12 +62,9 @@ test:
   imports:
     - sklearn
   commands:
-    - set OPENBLAS_NUM_THREADS=1          # [win]
-    - set OMP_NUM_THREADS=1               # [win]
-    - export OPENBLAS_NUM_THREADS=1       # [not win]
-    - export OMP_NUM_THREADS=1            # [not win]
-    # Skipping testing in Travis-CI for ppc64le pypy
-    - pytest --timeout 300 -n {{ test_cpus }} --verbose --pyargs sklearn -k "not ({{ tests_to_skip }})"    # [not (CI == "travis" and ppc64le and python_impl=="pypy")]
+    # Some tests take alot of memory, and seem to cause segfaults when memory runs out
+    {% set cpus = 2 if ppc64le else (8 if aarch64 else CPU_COUNT) %}
+    - pytest -v --pyargs sklearn -k "not ({{ tests_to_skip }})" -n {{ cpus }} --durations=50
 
 about:
   home: http://scikit-learn.org/
