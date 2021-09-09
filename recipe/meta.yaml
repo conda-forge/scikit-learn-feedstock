@@ -12,7 +12,7 @@ source:
 
 build:
   number: 1
-  skip: true  # [py2k]
+  skip: true  # [py<37]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
@@ -23,7 +23,7 @@ build:
 
 requirements:
   build:
-    - python                                # [build_platform != target_platform]
+    - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - cython                                 # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
