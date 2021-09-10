@@ -1,4 +1,4 @@
-{% set version = "main" %}
+{% set version = "1.0.rc1" %}
 
 package:
   name: scikit-learn
