@@ -1,4 +1,4 @@
-{% set version = "1.0.rc1" %}
+{% set version = "1.0.X" %}
 
 package:
   name: scikit-learn
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 0584ba027887771b872d022f41e84ebf6724700d5eccb1d1003f18e3a368eb60
+  sha256: e9f81f78bfe48dfe57f1bc191acfd36d5cce52dac692c99b2ec7ede538db4a10
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
