@@ -1,4 +1,4 @@
-{% set version = "0.24.2" %}
+{% set version = "1.0.rc2" %}
 
 package:
   name: scikit-learn
@@ -6,13 +6,13 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 642fb016bfe4bb7539ba6bf4e6dd5a95d2d25638387040b0f5eefdb84a840297
+  sha256: cf35a3dbbdba967b3851dce2b41ba0fc668ab365be47a2ed3e8353fdc035446e
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
   number: 1
-  skip: true  # [py2k]
+  skip: true  # [py<37]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
     - del /f %LIBRARY_INC%\cblas.h  # [win]
@@ -84,7 +84,7 @@ test:
     # reduce contention for parallelism (xdist-workers, openblas, openmp) that
     # actually increases the runtime and can lead to timeouts on drone/travis
     - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
-    - pytest -v --pyargs sklearn -k "not ({{ tests_to_skip }})" -n {{ cpus }} --durations=50
+    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -n {{ cpus }} --durations=50
 
 about:
   home: http://scikit-learn.org/
