@@ -1,4 +1,4 @@
-{% set version = "0.24.2" %}
+{% set version = "1.0" %}
 
 package:
   name: scikit-learn
@@ -6,12 +6,12 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 642fb016bfe4bb7539ba6bf4e6dd5a95d2d25638387040b0f5eefdb84a840297
+  sha256: fa478eaeb5dd92d0ac32f84e26b0de9dcfc52a64210887e4805a292927cc7102
   patches:
-   - patches/0001-ignore-errors-when-tearing-down-modules.patch
+    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py2k]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
