@@ -52,7 +52,7 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
-{% if aarch64 and python_impl == "pypy" %}
+{% if python_impl == "pypy" %}
     # skip longest-running tests on drone as pypy build times out otherwise;
     # since pytest -k skips on string matches, try to match accurately to avoid
     # skipping more than intended; all run >40sec, up to 4+ min, see pypy-on-arch-slowest.txt
