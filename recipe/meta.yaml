@@ -11,7 +11,7 @@ source:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<37]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
@@ -48,12 +48,13 @@ requirements:
     - threadpoolctl
 
 {% set tests_to_skip = "_not_a_real_test" %}
+{% set extra_pytest_args = "" %}
 # https://github.com/scikit-learn/scikit-learn/issues/20335
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
 {% if aarch64 and python_impl == "pypy" %}
-    # skip longest-running tests on drone as pypy build times out otherwise;
+    # skip longest-running tests on azure for pypy build times out otherwise;
     # since pytest -k skips on string matches, try to match accurately to avoid
     # skipping more than intended; all run >40sec, up to 4+ min, see pypy-on-arch-slowest.txt
     {% set tests_to_skip = tests_to_skip + " or (test_voting and test_gridsearch) or test_check_estimator_clones"
@@ -68,6 +69,13 @@ requirements:
                                          + " or test_parallel_classification or test_sparse_coder_parallel_mmap"
                                          + " or test_sparse_precomputed_distance or test_n_iter_no_change_inf"
                                          + " or test_sample_without_replacement_algorithms" %}
+{% endif %}
+{% if ppc64le and python_impl == "pypy" %}
+   # WARNING:
+   # On Travis, the pypy build is timing out and we need to skip all tests
+   # Then, we only test the docstring
+   {% set tests_to_skip = tests_to_skip + " or test" %}
+   {% set extra_pytest_args = "--doctest-modules" %}
 {% endif %}
 
 test:
@@ -84,7 +92,7 @@ test:
     # reduce contention for parallelism (xdist-workers, openblas, openmp) that
     # actually increases the runtime and can lead to timeouts on drone/travis
     - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
-    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -n {{ cpus }} --durations=50
+    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -n {{ cpus }} --durations=50 {{ extra_pytest_args }}
 
 about:
   home: http://scikit-learn.org/
