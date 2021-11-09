@@ -53,30 +53,6 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
-{% if aarch64 and python_impl == "pypy" %}
-    # skip longest-running tests on azure for pypy build times out otherwise;
-    # since pytest -k skips on string matches, try to match accurately to avoid
-    # skipping more than intended; all run >40sec, up to 4+ min, see pypy-on-arch-slowest.txt
-    {% set tests_to_skip = tests_to_skip + " or (test_voting and test_gridsearch) or test_check_estimator_clones"
-                                         + " or (test_bagging and (test_regression or test_classification))"
-                                         + " or (check_estimator_sparse_data and (Sequential or TSNE or RFECV))"
-                                         + " or (test_ensemble_heterogeneous_estimators_behavior and stacking)"
-                                         + " or test_rfe_cv_groups or test_nan_support"
-                                         + " or (test_tsne_different_square_distances and exact)"
-                                         + " or test_linear_models_cv_fit_for_all_backends[MultiTaskLassoCV-loky]"
-                                         + " or (test_forest and test_class_weights[RandomForestClassifier])"
-                                         + " or test_kde_sample_weights or test_uniform_grid[exact]"
-                                         + " or test_parallel_classification or test_sparse_coder_parallel_mmap"
-                                         + " or test_sparse_precomputed_distance or test_n_iter_no_change_inf"
-                                         + " or test_sample_without_replacement_algorithms" %}
-{% endif %}
-{% if ppc64le and python_impl == "pypy" %}
-   # WARNING:
-   # On Travis, the pypy build is timing out and we need to skip all tests
-   # Then, we only test the docstring
-   {% set tests_to_skip = tests_to_skip + " or test" %}
-   {% set extra_pytest_args = "--doctest-modules" %}
-{% endif %}
 
 test:
   requires:
@@ -87,12 +63,7 @@ test:
   imports:
     - sklearn
   commands:
-    # Some tests take alot of memory, and seem to cause segfaults when memory runs out
-    {% set cpus = 2 if ppc64le else (8 if aarch64 else CPU_COUNT) %}
-    # reduce contention for parallelism (xdist-workers, openblas, openmp) that
-    # actually increases the runtime and can lead to timeouts on drone/travis
-    - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
-    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -n {{ cpus }} --durations=50 {{ extra_pytest_args }}
+    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --durations=50
 
 about:
   home: http://scikit-learn.org/
