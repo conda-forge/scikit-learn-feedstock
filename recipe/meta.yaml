@@ -63,7 +63,7 @@ test:
   imports:
     - sklearn
   commands:
-    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --durations=50
+    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --durations=50  # [not ppc64le]
 
 about:
   home: http://scikit-learn.org/
