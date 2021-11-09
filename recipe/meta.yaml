@@ -11,7 +11,7 @@ source:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [py<37]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
