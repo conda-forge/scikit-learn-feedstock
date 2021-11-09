@@ -54,14 +54,29 @@ requirements:
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
 {% if aarch64 %}
-    # skip longest-running tests on azure; all run >60sec, up to 14+ min;
+    # due to emulation through QEMU, the tests for aarch run very long;
+    # skip longest-running ones; all run >60sec, up to 14+ min;
     # since pytest -k skips on string matches, try to match accurately to avoid skipping more than intended
-    {% set tests_to_skip = tests_to_skip + " or test_quantile and (test_asymmetric_error
-                                                or test_quantile_estimates_calibration or test_quantile_sample_weight)"
+    {% set tests_to_skip = tests_to_skip + " or (test_quantile and (test_asymmetric_error
+                                                 or test_quantile_estimates_calibration or test_quantile_sample_weight))"
                                          + " or test_kernel_pca_solvers_equivalence or test_n_iter_no_change_inf"
                                          + " or test_iterative_imputer_no_missing or (test_voting and test_gridsearch)"
                                          + " or test_svc_ovr_tie_breaking or test_check_estimator_clones"
                                          + " or (test_estimators and QuantileRegressor)" %}
+    # this problem is exacerbated for PyPy; skip some more tests there
+    {% if python_impl == "pypy" %}
+        {% set tests_to_skip = tests_to_skip + " or (test_bagging and (test_regression or test_classification))"
+                                             + " or (check_estimator_sparse_data and (Sequential or TSNE or RFECV))"
+                                             + " or (test_ensemble_heterogeneous_estimators_behavior and stacking)"
+                                             + " or test_rfe_cv_groups or test_nan_support"
+                                             + " or (test_tsne_different_square_distances and exact)"
+                                             + " or test_linear_models_cv_fit_for_all_backends[MultiTaskLassoCV-loky]"
+                                             + " or (test_forest and test_class_weights[RandomForestClassifier])"
+                                             + " or test_kde_sample_weights or test_uniform_grid[exact]"
+                                             + " or test_parallel_classification or test_sparse_coder_parallel_mmap"
+                                             + " or test_sparse_precomputed_distance or test_n_iter_no_change_inf"
+                                             + " or test_sample_without_replacement_algorithms" %}
+    {% endif %}
 {% endif %}
 
 test:
