@@ -116,6 +116,7 @@ about:
   license: BSD-3-Clause
   license_file: COPYING
   summary: A set of python modules for machine learning and data mining
+  dev_url: https://github.com/scikit-learn/scikit-learn
 
 extra:
   recipe-maintainers:

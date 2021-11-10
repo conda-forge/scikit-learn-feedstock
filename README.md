@@ -9,6 +9,8 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/scikit-learn-fe
 
 Summary: A set of python modules for machine learning and data mining
 
+Development: https://github.com/scikit-learn/scikit-learn
+
 Current build status
 ====================
 
