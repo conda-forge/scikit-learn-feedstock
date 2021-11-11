@@ -53,7 +53,7 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
-{% if aarch64 %}
+{% if aarch64 and CI %}
     # due to emulation through QEMU, the tests for aarch run very long;
     # azure has different linux agents, and the weaker ones can be a factor 2 slower;
     # skip longest-running ones; all run >60sec, up to 14+ min (on fast agents);
