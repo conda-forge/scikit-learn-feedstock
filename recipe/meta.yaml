@@ -56,14 +56,25 @@ requirements:
 {% if aarch64 and CI %}
     # due to emulation through QEMU, the tests for aarch run very long;
     # azure has different linux agents, and the weaker ones can be a factor 2 slower;
-    # skip longest-running ones; all run >60sec, up to 14+ min (on fast agents);
+    # skip longest-running ones; all run >60sec (on fast agents) resp. >90sec (on slow agents);
     # since pytest -k skips on string matches, try to match accurately to avoid skipping more than intended
     {% set tests_to_skip = tests_to_skip + " or (test_quantile and (test_asymmetric_error
                                                  or test_quantile_estimates_calibration or test_quantile_sample_weight))"
                                          + " or test_kernel_pca_solvers_equivalence or test_n_iter_no_change_inf"
                                          + " or test_iterative_imputer_no_missing or (test_voting and test_gridsearch)"
                                          + " or test_svc_ovr_tie_breaking or test_check_estimator_clones"
-                                         + " or (test_estimators and QuantileRegressor)" %}
+                                         + " or (test_estimators and QuantileRegressor)"
+                                         # tests over 90sec on slow agents
+                                         + " or (test_pairwise and test_cosine_distances)"
+                                         + " or test_randomized_eigsh_reconst_low_rank"
+                                         + " or test_randomized_svd_power_iteration_normalizer"
+                                         + " or test_SGDClassifier_fit_for_all_backends"
+                                         + " or test_classifier_chain_fit_and_predict_with_linear_svc"
+                                         + " or (test_gradient_boosting and test_poisson)"
+                                         + " or (test_ridge and test_lbfgs_solver_consistency)"
+                                         + " or (test_linear_models_cv_fit_for_all_backends and MultiTask)"
+                                         + " or test_spectral_embedding_callable_affinity"
+                                         + " or test_spectral_embedding_precomputed_affinity" %}
     # this problem is exacerbated for PyPy; skip some more tests there
     {% if python_impl == "pypy" %}
         {% set tests_to_skip = tests_to_skip + " or (test_bagging and (test_regression or test_classification))"
@@ -71,27 +82,19 @@ requirements:
                                              + " or (test_ensemble_heterogeneous_estimators_behavior and stacking)"
                                              + " or test_rfe_cv_groups or test_nan_support"
                                              + " or (test_tsne_different_square_distances and exact)"
-                                             + " or (test_linear_models_cv_fit_for_all_backends and MultiTask)"
                                              + " or (test_forest and test_class_weights[RandomForestClassifier])"
                                              + " or test_kde_sample_weights or test_uniform_grid[exact]"
                                              + " or test_parallel_classification or test_sparse_coder_parallel_mmap"
                                              + " or test_sparse_precomputed_distance or test_n_iter_no_change_inf"
-                                             + " or test_randomized_svd_power_iteration_normalizer"
-                                             + " or (test_pairwise and test_cosine_distances)"
                                              + " or test_randomized_eigsh_compared_to_others"
-                                             + " or test_randomized_eigsh_reconst_low_rank"
                                              + " or (test_quantile and test_equivariance)"
-                                             + " or (test_ridge and test_lbfgs_solver_consistency)"
-                                             + " or test_SGDClassifier_fit_for_all_backends"
                                              + " or (test_estimators and GaussianProcessClassifier)"
-                                             + " or (test_gradient_boosting and test_poisson)"
-                                             + " or test_classifier_chain_fit_and_predict_with_linear_svc"
                                              + " or (test_stacking_with_sample_weight and StackingClassifier)"
                                              + " or (test_mlp and test_partial_fit_classification)"
-                                             + " or test_spectral_embedding_callable_affinity"
                                              + " or (test_tree and test_min_impurity_decrease)"
-                                             + " or test_spectral_embedding_precomputed_affinity"
                                              + " or test_scores_attribute_layout_elasticnet"
+                                             + " or (test_warning_default_transform_alpha and MiniBatch)"
+                                             + " or (test_tsne_different_square_distances and barnes_hut)"
                                              + " or (test_kernel_approximation and test_polynomial_count_sketch)"
                                              + " or test_sample_without_replacement_algorithms" %}
     {% endif %}
