@@ -64,7 +64,6 @@ requirements:
                                          + " or test_iterative_imputer_no_missing or (test_voting and test_gridsearch)"
                                          + " or test_svc_ovr_tie_breaking or test_check_estimator_clones"
                                          + " or (test_estimators and QuantileRegressor)"
-                                         # tests over 90sec on slow agents
                                          + " or (test_pairwise and test_cosine_distances)"
                                          + " or test_randomized_eigsh_reconst_low_rank"
                                          + " or test_randomized_svd_power_iteration_normalizer"
