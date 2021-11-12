@@ -112,6 +112,8 @@ test:
     # actually increases the runtime and can lead to timeouts
     - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
     - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --timeout=1200 --durations=50  # [not ppc64le]
+    # NOTE: test suite is skipped on ppc due to bugs in QEMU code that cause
+    # CI to fail, even though the tests should run through on native hardware
 
 about:
   home: http://scikit-learn.org/
