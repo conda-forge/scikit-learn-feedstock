@@ -11,7 +11,7 @@ source:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [py<37]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
@@ -40,6 +40,7 @@ requirements:
     - scipy >=0.17.0
     - joblib >=0.11
     - threadpoolctl
+    - llvm-openmp  # [osx]
   run:
     - python
     - {{ pin_compatible('numpy') }}
