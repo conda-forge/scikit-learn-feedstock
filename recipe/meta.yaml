@@ -51,7 +51,6 @@ requirements:
     - threadpoolctl
 
 {% set tests_to_skip = "_not_a_real_test" %}
-{% set pytest_xdist_n_arg = "-nauto" %}
 {% set extra_pytest_args = "" %}
 # https://github.com/scikit-learn/scikit-learn/issues/20335
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
@@ -80,8 +79,6 @@ requirements:
                                          + " or test_spectral_embedding_precomputed_affinity" %}
     # this problem is exacerbated for PyPy; skip some more tests there
     {% if python_impl == "pypy" %}
-        # Do not run in parallel for pypy on windows
-        {% set pytest_xdist_n_arg = "" %}  # [win]
         {% set tests_to_skip = tests_to_skip + " or (test_bagging and (test_regression or test_classification))"
                                              + " or (check_estimator_sparse_data and (Sequential or TSNE or RFECV))"
                                              + " or (test_ensemble_heterogeneous_estimators_behavior and stacking)"
@@ -117,7 +114,7 @@ test:
     # reduce contention for parallelism (xdist-workers, openblas, openmp) that
     # actually increases the runtime and can lead to timeouts
     - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
-    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" {{ pytest_xdist_n_arg }} --timeout=1200 --durations=50  # [not ppc64le]
+    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --timeout=1200 --durations=50  # [not ppc64le]
     # NOTE: test suite is skipped on ppc due to bugs in QEMU code that cause
     # CI to fail, even though the tests should run through on native hardware
 
