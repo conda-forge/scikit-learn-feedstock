@@ -9,9 +9,10 @@ source:
   sha256: 34471662f0e5ba8d2c799391338c6f976680cc66b715e00db0c7589f4f371bc4
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
+   - patches/0002-MAINT-Use-push_back-directly-in-dbscan_inner.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<37]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
