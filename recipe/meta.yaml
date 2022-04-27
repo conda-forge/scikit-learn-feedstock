@@ -1,4 +1,4 @@
-{% set version = "1.0.rc2" %}
+{% set version = "1.1.0rc1" %}
 
 package:
   name: scikit-learn
@@ -6,12 +6,12 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: cf35a3dbbdba967b3851dce2b41ba0fc668ab365be47a2ed3e8353fdc035446e
+  sha256: db20e7daa31924c97dce60c54f854485816da269964304a8730bda3cf739a277
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 3
+  number: 0
   skip: true  # [py<37]
   script:
     - rm $PREFIX/include/cblas.h  # [not win]
@@ -34,18 +34,18 @@ requirements:
   host:
     - python
     - pip
-    - cython >=0.28.5
+    - cython >=0.29.24
     - libcblas
     - numpy
-    - scipy >=0.17.0
-    - joblib >=0.11
-    - threadpoolctl
+    - scipy >=1.3.2
+    - joblib >=1.0.0
+    - threadpoolctl >=2.0.0
   run:
     - python
     - {{ pin_compatible('numpy') }}
     - scipy
-    - joblib >=0.11
-    - threadpoolctl
+    - joblib >=1.0.0
+    - threadpoolctl >=2.0.0
 
 {% set tests_to_skip = "_not_a_real_test" %}
 # https://github.com/scikit-learn/scikit-learn/issues/20335
@@ -72,8 +72,8 @@ requirements:
 
 test:
   requires:
-    - pytest >=3.3.0
-    - cython >=0.28.5
+    - pytest >=5.0.1
+    - cython >=0.29.24
     - pytest-xdist
     - pytest-timeout
   imports:
