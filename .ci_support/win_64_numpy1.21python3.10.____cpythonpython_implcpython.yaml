@@ -1,13 +1,13 @@
 c_compiler:
-- vs2017
+- vs2019
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge scikit-learn_rc
 cxx_compiler:
-- vs2017
+- vs2019
 libcblas:
-- 3.8 *netlib
+- 3.9 *netlib
 numpy:
 - '1.21'
 pin_run_as_build:
