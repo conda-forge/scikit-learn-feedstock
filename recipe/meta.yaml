@@ -1,4 +1,4 @@
-{% set version = "1.2.0" %}
+{% set version = "1.2.1" %}
 
 package:
   name: scikit-learn
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 84ad05fbb8529856645344a81b01a0bbff8818493535de08a5e85b2054adc31a
+  sha256: 50613365b0c118b07ad51902d46b9f7779b8f81ea932a205bd12e64b829eea9a
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
@@ -33,7 +33,7 @@ requirements:
     - llvm-openmp  # [osx]
   host:
     - python
-    # temporary pin pip to avoid missing oldest-supported-numpy error 
+    # temporary pin pip to avoid missing oldest-supported-numpy error
     - pip ==22.0.4
     - setuptools <60.0
     - cython >=0.29.24
@@ -140,3 +140,4 @@ extra:
     - glemaitre
     - jeremiedbb
     - thomasjpfan
+    - jjerphan
