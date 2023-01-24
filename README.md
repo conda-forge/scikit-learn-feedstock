@@ -331,6 +331,7 @@ Feedstock Maintainers
 * [@glemaitre](https://github.com/glemaitre/)
 * [@jakirkham](https://github.com/jakirkham/)
 * [@jeremiedbb](https://github.com/jeremiedbb/)
+* [@jjerphan](https://github.com/jjerphan/)
 * [@jnothman](https://github.com/jnothman/)
 * [@lesteve](https://github.com/lesteve/)
 * [@ocefpaf](https://github.com/ocefpaf/)
