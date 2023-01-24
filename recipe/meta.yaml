@@ -8,7 +8,7 @@ source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
   sha256: 50613365b0c118b07ad51902d46b9f7779b8f81ea932a205bd12e64b829eea9a
   patches:
-   - patches/0001-ignore-errors-when-tearing-down-modules.patch
+    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
   number: 0
