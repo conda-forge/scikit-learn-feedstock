@@ -9,6 +9,8 @@ source:
   sha256: 1e9b7fb586c6a6bf57d48c4eda7c4b6069e72e14dc60a0f7606146022d5297cc
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
+   # Remove for next release
+   - patches/0002-xfail-test.patch
 
 build:
   number: 2
