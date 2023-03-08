@@ -1,11 +1,11 @@
-About scikit-learn
-==================
+About scikit-learn-feedstock
+============================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/scikit-learn-feedstock/blob/main/LICENSE.txt)
 
 Home: http://scikit-learn.org/
 
 Package license: BSD-3-Clause
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/scikit-learn-feedstock/blob/main/LICENSE.txt)
 
 Summary: A set of python modules for machine learning and data mining
 
@@ -331,6 +331,7 @@ Feedstock Maintainers
 * [@glemaitre](https://github.com/glemaitre/)
 * [@jakirkham](https://github.com/jakirkham/)
 * [@jeremiedbb](https://github.com/jeremiedbb/)
+* [@jjerphan](https://github.com/jjerphan/)
 * [@jnothman](https://github.com/jnothman/)
 * [@lesteve](https://github.com/lesteve/)
 * [@ocefpaf](https://github.com/ocefpaf/)
