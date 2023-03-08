@@ -1,4 +1,4 @@
-{% set version = "1.2.1" %}
+{% set version = "1.2.2" %}
 
 package:
   name: scikit-learn
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 50613365b0c118b07ad51902d46b9f7779b8f81ea932a205bd12e64b829eea9a
+  sha256: 992694e21ce4285aab71b09939d3ed7e5ddb41b8803eb98e10aaba927b74bdf1
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
@@ -35,7 +35,7 @@ requirements:
     - python
     # temporary pin pip to avoid missing oldest-supported-numpy error
     - pip ==22.0.4
-    - setuptools <60.0
+    - setuptools
     - cython >=0.29.24
     - libcblas
     - numpy
