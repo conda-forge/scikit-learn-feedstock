@@ -14,8 +14,6 @@ build:
   number: 1
   skip: true  # [py<38]
   script:
-    - rm $PREFIX/include/cblas.h  # [not win]
-    - del /f %LIBRARY_INC%\cblas.h  # [win]
     # build the C files in parallel. This helps beat the
     # time limit consistently on drone.io
     - {{ PYTHON }} setup.py build_ext -j{{ CPU_COUNT }}
