@@ -29,6 +29,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - llvm-openmp  # [osx]
+    - libgomp  # [linux]
   host:
     - python
     # temporary pin pip to avoid missing oldest-supported-numpy error
@@ -41,6 +42,7 @@ requirements:
     - joblib >=1.1.1
     - threadpoolctl >=2.0.0
     - llvm-openmp  # [osx]
+    - libgomp  # [linux]
   run:
     - python
     - {{ pin_compatible('numpy') }}
