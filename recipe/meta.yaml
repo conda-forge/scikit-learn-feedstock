@@ -32,11 +32,10 @@ requirements:
     - libgomp  # [linux]
   host:
     - python
-    # temporary pin pip to avoid missing oldest-supported-numpy error
     - pip
     - setuptools
     - cython >=0.29.33,<3
-    - numpy <2
+    - numpy
     - scipy >=1.5.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
     - joblib >=1.1.1
