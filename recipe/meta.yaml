@@ -23,7 +23,7 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython                                 # [build_platform != target_platform]
+    - cython >=0.29.33,<3                    # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
@@ -32,10 +32,9 @@ requirements:
     - libgomp  # [linux]
   host:
     - python
-    # temporary pin pip to avoid missing oldest-supported-numpy error
-    - pip ==22.0.4
+    - pip
     - setuptools
-    - cython <3
+    - cython >=0.29.33,<3
     - numpy
     - scipy >=1.5.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
@@ -105,7 +104,7 @@ requirements:
 test:
   requires:
     - pytest >=7.1.2
-    - cython <3
+    - cython >=0.29.33,<3
     - pytest-xdist
     - pytest-timeout
   imports:
