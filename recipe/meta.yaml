@@ -35,7 +35,7 @@ requirements:
     # temporary pin pip to avoid missing oldest-supported-numpy error
     - pip ==22.0.4
     - setuptools
-    - cython <3
+    - cython >=0.29.33,<3
     - numpy <2
     - scipy >=1.5.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
