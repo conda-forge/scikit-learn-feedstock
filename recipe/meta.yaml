@@ -33,7 +33,7 @@ requirements:
   host:
     - python
     # temporary pin pip to avoid missing oldest-supported-numpy error
-    - pip ==22.0.4
+    - pip
     - setuptools
     - cython >=0.29.33,<3
     - numpy <2
