@@ -114,9 +114,11 @@ test:
     # reduce contention for parallelism (xdist-workers, openblas, openmp) that
     # actually increases the runtime and can lead to timeouts
     - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
-    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --timeout=1200 --durations=50  # [not ppc64le]
+    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --timeout=1200 --durations=50  # [not ppc64le or not aarch64]
     # NOTE: test suite is skipped on ppc due to bugs in QEMU code that cause
     # CI to fail, even though the tests should run through on native hardware
+    # NOTE(bis): test suite is skipped for aarch64 due to issue with lapack
+    # We are not able to reproduce the issue locally
 
 about:
   home: http://scikit-learn.org/
