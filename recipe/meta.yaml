@@ -6,12 +6,12 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 03d387e2f98c9b34d8e18a8bf316dd1e4d143060f45d21710ccc4b2a816eb44d
+  sha256: b19edd8d0e0234efc71ce7cc28f5236d960b0d4bd2a842341aeb4d84ad2ccde1
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   script:
     # build the C files in parallel. This helps beat the
