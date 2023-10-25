@@ -111,6 +111,10 @@ test:
   imports:
     - sklearn
   commands:
+    # make sure that the version of the source used to build the binaries is
+    # the same than the one reported by the source code
+    - export SKLEARN_VERSION={{ version }}
+    - python -c "import os; import sklearn; assert sklearn.__version__ == os.environ['SKLEARN_VERSION'], f'Inconsistence between the version installed and built. The version imported is {sklearn.__version__}'"
     # reduce contention for parallelism (xdist-workers, openblas, openmp) that
     # actually increases the runtime and can lead to timeouts
     - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
@@ -142,3 +146,4 @@ extra:
     - jeremiedbb
     - thomasjpfan
     - jjerphan
+B
