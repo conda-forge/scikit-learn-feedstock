@@ -40,8 +40,6 @@ requirements:
     - scipy >=1.8  # [aarch64]
     - joblib >=1.1.1
     - threadpoolctl >=2.0.0
-    - llvm-openmp  # [osx]
-    - libgomp  # [linux]
   run:
     - python
     # https://conda-forge.org/docs/maintainer/knowledge_base.html#building-against-numpy
