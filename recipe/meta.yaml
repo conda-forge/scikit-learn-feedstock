@@ -11,7 +11,7 @@ source:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 2
+  number: 3
   skip: true  # [py<38]
   script:
     # build the C files in parallel. This helps beat the
