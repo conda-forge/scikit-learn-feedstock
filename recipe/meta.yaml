@@ -1,4 +1,4 @@
-{% set version = "1.3.0rc1" %}
+{% set version = "1.4.0rc1" %}
 
 package:
   name: scikit-learn
@@ -6,13 +6,13 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: 54fefebd57bddb56e0ddec22d9022dc9df8dc5e7b2c9ad8b691503e2df686be5
+  sha256: b8a033b4fd0973cafdf9377ab3be62f9c5737d41263dfa9cb3b542cb9c3bb675
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
   number: 0
-  skip: true  # [py<38]
+  skip: true  # [py<39]
   script:
     # build the C files in parallel. This helps beat the
     # time limit consistently on drone.io
@@ -23,7 +23,7 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython                                 # [build_platform != target_platform]
+    - cython >=0.29.33                       # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
@@ -32,22 +32,20 @@ requirements:
     - libgomp  # [linux]
   host:
     - python
-    # temporary pin pip to avoid missing oldest-supported-numpy error
-    - pip ==22.0.4
+    - pip
     - setuptools
     - cython >=0.29.33
     - numpy
-    - scipy >=1.5.0  # [not aarch64]
+    - scipy >=1.6.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
-    - joblib >=1.1.1
+    - joblib >=1.2.0
     - threadpoolctl >=2.0.0
-    - llvm-openmp  # [osx]
-    - libgomp  # [linux]
   run:
     - python
+    # https://conda-forge.org/docs/maintainer/knowledge_base.html#building-against-numpy
     - {{ pin_compatible('numpy') }}
     - scipy
-    - joblib >=1.1.1
+    - joblib >=1.2.0
     - threadpoolctl >=2.0.0
 
 {% set tests_to_skip = "_not_a_real_test" %}
@@ -114,9 +112,11 @@ test:
     # reduce contention for parallelism (xdist-workers, openblas, openmp) that
     # actually increases the runtime and can lead to timeouts
     - export OMP_NUM_THREADS=1                 # [aarch64 or ppc64le]
-    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --timeout=1200 --durations=50  # [not ppc64le]
+    - pytest --pyargs sklearn -k "not ({{ tests_to_skip }})" -nauto --timeout=1200 --durations=50  # [not (ppc64le or aarch64)]
     # NOTE: test suite is skipped on ppc due to bugs in QEMU code that cause
     # CI to fail, even though the tests should run through on native hardware
+    # NOTE(bis): test suite is skipped for aarch64 due to issue with lapack
+    # We are not able to reproduce the issue locally
 
 about:
   home: http://scikit-learn.org/
