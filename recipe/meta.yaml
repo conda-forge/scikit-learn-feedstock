@@ -1,12 +1,13 @@
 {% set version = "1.4.0" %}
+{% set tag = "-1" %}  # exceptionally for the 1.4.0 release to match the pypi release
 
 package:
   name: scikit-learn
   version: {{ version }}
 
 source:
-  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: d8354b83e33c222427e91cf6ffe3e1283e204f3080ae464a3ee9f89741263eee
+  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
+  sha256: 8d99002c8a4d1a6349abc3ca7ba63d2b1c1b03df0e050732d1f689e91f3ca11a
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
