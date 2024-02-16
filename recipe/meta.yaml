@@ -1,5 +1,5 @@
-{% set version = "1.4.0" %}
-{% set tag = "-1" %}  # exceptionally for the 1.4.0 release to match the pypi release
+{% set version = "1.4.1.post1" %}
+{% set tag = "" %}  # sometimes used to match PyPI releases
 
 package:
   name: scikit-learn
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: 8d99002c8a4d1a6349abc3ca7ba63d2b1c1b03df0e050732d1f689e91f3ca11a
+  sha256: 9af1781975b06d3163e77e339e8556728be35595549b52d4dda8c04e831ea2fe
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
@@ -24,7 +24,7 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython >=0.29.33                       # [build_platform != target_platform]
+    - cython >=3.0.8                         # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
@@ -35,7 +35,7 @@ requirements:
     - python
     - pip
     - setuptools
-    - cython >=0.29.33
+    - cython >=3.0.8
     - numpy
     - scipy >=1.6.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
@@ -104,7 +104,7 @@ requirements:
 test:
   requires:
     - pytest >=7.1.2
-    - cython >=0.29.33
+    - cython >=3.0.8
     - pytest-xdist
     - pytest-timeout
   imports:
