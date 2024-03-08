@@ -13,6 +13,8 @@ build:
   number: 0
   skip: true  # [py<39]
   script:
+    # necessary for cross-compilation to point to the right env
+    - export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
     - {{ PYTHON }} -m pip install . -vv
 
 requirements:
@@ -21,6 +23,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - cython >=3.0.8                         # [build_platform != target_platform]
     - meson-python                           # [build_platform != target_platform]
+    - pkg-config                             # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
