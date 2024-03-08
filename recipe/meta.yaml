@@ -49,6 +49,7 @@ requirements:
     - pip
     - cython >=3.0.8
     - meson-python
+    - python-build
     - numpy
     - scipy >=1.6.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
