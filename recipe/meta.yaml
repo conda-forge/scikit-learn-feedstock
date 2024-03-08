@@ -6,8 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: 9af1781975b06d3163e77e339e8556728be35595549b52d4dda8c04e831ea2fe
+  url: https://github.com/lesteve/scikit-learn/archive/refs/heads/meson-main-build-backend.zip
+  sha256: f68727af7f19fa34ae12187fcc5119a8c0cdce193d17f7cc72a4144fe387fa8d
   patches:
    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
@@ -31,6 +31,7 @@ requirements:
     - {{ compiler('cxx') }}
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
+    - meson-python
   host:
     - python
     - pip
