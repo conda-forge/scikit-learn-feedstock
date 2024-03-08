@@ -13,6 +13,7 @@ build:
   number: 0
   skip: true  # [py<39]
   script:
+    - set -x
     # necessary for cross-compilation to point to the right env
     - export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
     # HACK: extend $CONDA_PREFIX/meson_cross_file that's created in
