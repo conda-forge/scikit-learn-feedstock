@@ -20,4 +20,4 @@ $PYTHON -m build -w -n -x \
         -Cbuilddir=builddir \
         -Csetup-args=${MESON_ARGS_REDUCED// / -Csetup-args=} \
         || (cat builddir/meson-logs/meson-log.txt && exit 1)
-$PYTHON -m pip install dist/numpy*.whl
+$PYTHON -m pip install dist/scikit-learn*.whl
