@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/lesteve/scikit-learn/archive/refs/heads/meson-main-build-backend.zip
-  sha256: 24c93aa135fba8355311aff58dd5dfa2859792363e65dd322998abde7dae87b7
+  sha256: 3e782251782952dc2b48c48d678d54d48eefed1bf782d6a7609c9c465fa9e855
 
 build:
   number: 0
