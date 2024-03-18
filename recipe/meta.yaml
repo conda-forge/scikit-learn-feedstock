@@ -6,25 +6,20 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: 9af1781975b06d3163e77e339e8556728be35595549b52d4dda8c04e831ea2fe
-  patches:
-   - patches/0001-ignore-errors-when-tearing-down-modules.patch
+  url: https://github.com/lesteve/scikit-learn/archive/refs/heads/meson-main-build-backend.zip
+  sha256: 3e782251782952dc2b48c48d678d54d48eefed1bf782d6a7609c9c465fa9e855
 
 build:
   number: 0
   skip: true  # [py<39]
-  script:
-    # build the C files in parallel. This helps beat the
-    # time limit consistently on drone.io
-    - {{ PYTHON }} setup.py build_ext -j{{ CPU_COUNT }}
-    - {{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - cython >=3.0.8                         # [build_platform != target_platform]
+    - meson-python                           # [build_platform != target_platform]
+    - pkg-config                             # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
@@ -34,8 +29,9 @@ requirements:
   host:
     - python
     - pip
-    - setuptools
     - cython >=3.0.8
+    - meson-python
+    - python-build
     - numpy
     - scipy >=1.6.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
