@@ -1,4 +1,4 @@
-{% set version = "1.4.1.post1" %}
+{% set version = "1.4.2" %}
 {% set tag = "" %}  # sometimes used to match PyPI releases
 
 package:
@@ -7,9 +7,9 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: 9af1781975b06d3163e77e339e8556728be35595549b52d4dda8c04e831ea2fe
+  sha256: fdef716a499d6026574ea2e646784de70e51b7428d1110b8f812b88cd6a026e5
   patches:
-   - patches/0001-ignore-errors-when-tearing-down-modules.patch
+    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
   number: 0
