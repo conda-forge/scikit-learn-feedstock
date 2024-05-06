@@ -258,6 +258,25 @@ mamba repoquery whoneeds scikit-learn --channel conda-forge/label/scikit-learn_r
 mamba repoquery depends scikit-learn --channel conda-forge/label/scikit-learn_rc
 ```
 
+or with `mamba`:
+
+```
+mamba search scikit-learn --channel conda-forge
+```
+
+Alternatively, `mamba repoquery` may provide more information:
+
+```
+# Search all versions available on your platform:
+mamba repoquery search scikit-learn --channel conda-forge
+
+# List packages depending on `scikit-learn`:
+mamba repoquery whoneeds scikit-learn --channel conda-forge
+
+# List dependencies of `scikit-learn`:
+mamba repoquery depends scikit-learn --channel conda-forge
+```
+
 
 About conda-forge
 =================
