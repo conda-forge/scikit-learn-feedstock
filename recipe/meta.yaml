@@ -13,9 +13,6 @@ build:
   number: 0
   skip: true  # [py<39]
   script:
-    # build the C files in parallel. This helps beat the
-    # time limit consistently on drone.io
-    - {{ PYTHON }} setup.py build_ext -j{{ CPU_COUNT }}
     - {{ PYTHON }} -m pip install . -vv
 
 requirements:
@@ -25,6 +22,8 @@ requirements:
     - cython >=3.0.10                        # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
+    - meson-python >=0.15.0
+    - ninja
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
