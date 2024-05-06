@@ -4,10 +4,14 @@ c_compiler:
 - clang
 c_compiler_version:
 - '16'
+c_stdlib:
+- macosx_deployment_target
+c_stdlib_version:
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
-- conda-forge scikit-learn_rc
+- conda-forge main
 cxx_compiler:
 - clangxx
 cxx_compiler_version:

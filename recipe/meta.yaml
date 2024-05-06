@@ -1,14 +1,15 @@
-{% set version = "1.4.0rc1" %}
+{% set version = "1.4.2" %}
+{% set tag = "" %}  # sometimes used to match PyPI releases
 
 package:
   name: scikit-learn
   version: {{ version }}
 
 source:
-  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}.tar.gz
-  sha256: b8a033b4fd0973cafdf9377ab3be62f9c5737d41263dfa9cb3b542cb9c3bb675
+  url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
+  sha256: fdef716a499d6026574ea2e646784de70e51b7428d1110b8f812b88cd6a026e5
   patches:
-   - patches/0001-ignore-errors-when-tearing-down-modules.patch
+    - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
   number: 0
@@ -23,7 +24,7 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython >=0.29.33                       # [build_platform != target_platform]
+    - cython >=3.0.8                         # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
@@ -34,7 +35,7 @@ requirements:
     - python
     - pip
     - setuptools
-    - cython >=0.29.33
+    - cython >=3.0.8
     - numpy
     - scipy >=1.6.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
@@ -103,7 +104,7 @@ requirements:
 test:
   requires:
     - pytest >=7.1.2
-    - cython >=0.29.33
+    - cython >=3.0.8
     - pytest-xdist
     - pytest-timeout
   imports:
