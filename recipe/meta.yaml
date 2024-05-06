@@ -29,7 +29,7 @@ requirements:
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - {{ stdlib('c')}}
+    - {{ stdlib('c') }}
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
   host:
