@@ -22,8 +22,8 @@ requirements:
     - cython >=3.0.10                        # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
-    - meson-python >=0.15.0
-    - ninja
+    - meson-python >=0.15.0                  # [build_platform != target_platform]
+    - ninja                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
