@@ -1,4 +1,4 @@
-{% set version = "1.4.2" %}
+{% set version = "1.5.0rc1" %}
 {% set tag = "" %}  # sometimes used to match PyPI releases
 
 package:
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: fdef716a499d6026574ea2e646784de70e51b7428d1110b8f812b88cd6a026e5
+  sha256: 94ed15225d05ba9ac182af9bb12038a5eec36c9dee5c7acb73716b56d2ca8cfc
   patches:
     - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
@@ -24,7 +24,7 @@ requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython >=3.0.8                         # [build_platform != target_platform]
+    - cython >=3.0.10                        # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
@@ -35,19 +35,19 @@ requirements:
     - python
     - pip
     - setuptools
-    - cython >=3.0.8
+    - cython >=3.0.10
     - numpy
     - scipy >=1.6.0  # [not aarch64]
     - scipy >=1.8  # [aarch64]
     - joblib >=1.2.0
-    - threadpoolctl >=2.0.0
+    - threadpoolctl >=3.1.0
   run:
     - python
     # https://conda-forge.org/docs/maintainer/knowledge_base.html#building-against-numpy
     - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=1.2.0
-    - threadpoolctl >=2.0.0
+    - threadpoolctl >=3.1.0
 
 {% set tests_to_skip = "_not_a_real_test" %}
 {% set extra_pytest_args = "" %}
@@ -104,7 +104,7 @@ requirements:
 test:
   requires:
     - pytest >=7.1.2
-    - cython >=3.0.8
+    - cython >=3.0.10
     - pytest-xdist
     - pytest-timeout
   imports:
