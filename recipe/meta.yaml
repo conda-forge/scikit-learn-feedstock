@@ -10,10 +10,8 @@ source:
   sha256: 94ed15225d05ba9ac182af9bb12038a5eec36c9dee5c7acb73716b56d2ca8cfc
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
-  script:
-    - {{ PYTHON }} -m pip install . -vv
 
 requirements:
   build:
@@ -32,6 +30,7 @@ requirements:
   host:
     - python
     - pip
+    - python-build
     - meson-python >=0.15.0
     - ninja
     - cython >=3.0.10
