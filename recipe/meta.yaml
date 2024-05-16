@@ -12,7 +12,7 @@ source:
     - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
   script:
     # build the C files in parallel. This helps beat the
@@ -28,6 +28,7 @@ requirements:
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
@@ -44,7 +45,6 @@ requirements:
   run:
     - python
     # https://conda-forge.org/docs/maintainer/knowledge_base.html#building-against-numpy
-    - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=1.2.0
     - threadpoolctl >=2.0.0
