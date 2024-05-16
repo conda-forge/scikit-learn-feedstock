@@ -1,5 +1,5 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.13'
+- '11.0'
 c_compiler:
 - clang
 c_compiler_version:
@@ -7,9 +7,9 @@ c_compiler_version:
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '10.13'
+- '11.0'
 channel_sources:
-- conda-forge
+- conda-forge/label/numpy_rc,conda-forge
 channel_targets:
 - conda-forge scikit-learn_rc
 cxx_compiler:
@@ -19,9 +19,9 @@ cxx_compiler_version:
 llvm_openmp:
 - '16'
 macos_machine:
-- x86_64-apple-darwin13.4.0
+- arm64-apple-darwin20.0.0
 numpy:
-- '1.22'
+- '2.0'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -31,7 +31,7 @@ python:
 python_impl:
 - cpython
 target_platform:
-- osx-64
+- osx-arm64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
