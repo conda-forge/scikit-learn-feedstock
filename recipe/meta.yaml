@@ -53,6 +53,9 @@ requirements:
 {% set extra_pytest_args = "" %}
 # https://github.com/scikit-learn/scikit-learn/issues/20335
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
+# Fails with numpy 2 on windows. TODO remove for 1.5.0 when
+# https://github.com/scikit-learn/scikit-learn/pull/29029 is merged
+{% set tests_to_skip = tests_to_skip + " or test_KNeighborsClassifier_raise_on_all_zero_weights" %}  # [win]
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
 {% if aarch64 and CI %}
