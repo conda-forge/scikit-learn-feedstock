@@ -10,7 +10,7 @@ source:
   sha256: 94ed15225d05ba9ac182af9bb12038a5eec36c9dee5c7acb73716b56d2ca8cfc
 
 build:
-  number: 1
+  number: 2
   skip: true  # [py<39]
 
 requirements:
@@ -23,6 +23,7 @@ requirements:
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
     - llvm-openmp  # [osx]
@@ -42,7 +43,6 @@ requirements:
   run:
     - python
     # https://conda-forge.org/docs/maintainer/knowledge_base.html#building-against-numpy
-    - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=1.2.0
     - threadpoolctl >=3.1.0
