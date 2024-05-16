@@ -12,7 +12,7 @@ source:
     - patches/0001-ignore-errors-when-tearing-down-modules.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
   script:
     # build the C files in parallel. This helps beat the
@@ -27,6 +27,7 @@ requirements:
     - cython >=3.0.8                         # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - llvm-openmp  # [osx]
@@ -44,7 +45,6 @@ requirements:
   run:
     - python
     # https://conda-forge.org/docs/maintainer/knowledge_base.html#building-against-numpy
-    - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=1.2.0
     - threadpoolctl >=2.0.0
@@ -53,6 +53,9 @@ requirements:
 {% set extra_pytest_args = "" %}
 # https://github.com/scikit-learn/scikit-learn/issues/20335
 {% set tests_to_skip = tests_to_skip + " or test_loadings_converges" %}
+# Fails with numpy 2 on windows. TODO remove for 1.5.0 when
+# https://github.com/scikit-learn/scikit-learn/pull/29029 is merged
+{% set tests_to_skip = tests_to_skip + " or test_KNeighborsClassifier_raise_on_all_zero_weights" %}  # [win]
 # Numerically unstable test numerical difference in test
 {% set tests_to_skip = tests_to_skip + " or test_mlp_regressor_dtypes_casting" %}         # [ppc64le]
 {% if aarch64 and CI %}
