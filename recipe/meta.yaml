@@ -40,6 +40,7 @@ requirements:
     - scipy >=1.8  # [aarch64]
     - joblib >=1.2.0
     - threadpoolctl >=3.1.0
+   # See https://github.com/conda-forge/openmp-feedstock/issues/126
     - llvm-openmp  # [osx]
     - libgomp  # [linux]
   run:
