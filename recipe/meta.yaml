@@ -10,7 +10,7 @@ source:
   sha256: cd2aac2b566c7e740d34aabb4737864c74ba33c29aad7101fbf1bab2931c02dc
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
 
 requirements:
@@ -40,6 +40,9 @@ requirements:
     - scipy >=1.8  # [aarch64]
     - joblib >=1.2.0
     - threadpoolctl >=3.1.0
+   # See https://github.com/conda-forge/openmp-feedstock/issues/126
+    - llvm-openmp  # [osx]
+    - libgomp  # [linux]
   run:
     - python
     - scipy
