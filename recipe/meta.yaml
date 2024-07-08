@@ -6,8 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/lesteve/scikit-learn/archive/refs/heads/meson-check-versions.zip
-  sha256: fd95a2118352fc95fcdb770f99e705f80e38e73d0d25d77645e196d1cb8fd106
+  url: https://github.com/lesteve/scikit-learn/archive/refs/heads/meson-check-versions-without-cross-compile-protection.zip
+  sha256: 2aded754abec7524f4fabf5cf2b22043068b28dfa63d0499c96871e984495ca1
 
 build:
   number: 0
