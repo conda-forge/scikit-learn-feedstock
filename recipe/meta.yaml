@@ -1,5 +1,6 @@
 {% set version = "1.5.1" %}
 {% set tag = "" %}  # sometimes used to match PyPI releases
+{% if CI is not defined %}{% set CI=False %}{% endif %}
 
 package:
   name: scikit-learn
