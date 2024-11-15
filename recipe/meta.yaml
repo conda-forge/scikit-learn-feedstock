@@ -1,4 +1,4 @@
-{% set version = "1.5.0rc1" %}
+{% set version = "1.6.0rc1" %}
 {% set tag = "" %}  # sometimes used to match PyPI releases
 
 package:
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: 94ed15225d05ba9ac182af9bb12038a5eec36c9dee5c7acb73716b56d2ca8cfc
+  sha256: d995c272d8a14ccfe59ebd06c0c38c1f2299f1f665e3e34d10c9aab9586e7b59
 
 build:
   number: 1
@@ -22,6 +22,7 @@ requirements:
     - cython >=3.0.10                        # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - scipy                                  # [build_platform != target_platform]
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib('c') }}
@@ -31,7 +32,7 @@ requirements:
     - python
     - pip
     - python-build
-    - meson-python >=0.15.0
+    - meson-python >=0.16.0
     - ninja
     - cython >=3.0.10
     - numpy
@@ -41,8 +42,6 @@ requirements:
     - threadpoolctl >=3.1.0
   run:
     - python
-    # https://conda-forge.org/docs/maintainer/knowledge_base.html#building-against-numpy
-    - {{ pin_compatible('numpy') }}
     - scipy
     - joblib >=1.2.0
     - threadpoolctl >=3.1.0
