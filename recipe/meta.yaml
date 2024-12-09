@@ -1,4 +1,4 @@
-{% set version = "1.5.2" %}
+{% set version = "1.6.0" %}
 {% set tag = "" %}  # sometimes used to match PyPI releases
 {% if CI is not defined %}{% set CI=False %}{% endif %}
 
@@ -8,10 +8,10 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: 4ba70c0dc45ffb14451b7ba8f5b37ba45f2d5344f2e054c08768d7ce398c79f9
+  sha256: 685085c688f9f32ef41cde246a638554927cb1dd6c66f535ad0ec550c673d1e3
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<39]
   skip: true  # [python_impl == "pypy"]
 
@@ -33,7 +33,6 @@ requirements:
     - python
     - pip
     - python-build
-    - setuptools
     - meson-python >=0.16.0
     - ninja
     - cython >=3.0.10
