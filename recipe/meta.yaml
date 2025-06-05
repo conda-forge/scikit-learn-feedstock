@@ -1,4 +1,4 @@
-{% set version = "1.6.1" %}
+{% set version = "1.7.0" %}
 {% set tag = "" %}  # sometimes used to match PyPI releases
 {% if CI is not defined %}{% set CI=False %}{% endif %}
 
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/{{ version }}{{ tag }}.tar.gz
-  sha256: 88c1816c89d2b27f2506d155e1195d71fc9d935bbe1968ce02b0e9ddd659b2ff
+  sha256: 60f3e08038f7395e040254a543948be738c41081c1d3bcf3a56a8116d64fd616
 
 build:
   number: 0
