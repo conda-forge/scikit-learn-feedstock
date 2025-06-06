@@ -11,7 +11,7 @@ source:
   sha256: 60f3e08038f7395e040254a543948be738c41081c1d3bcf3a56a8116d64fd616
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<310]
   skip: true  # [python_impl == "pypy"]
 
@@ -45,7 +45,7 @@ requirements:
     - libgomp  # [linux]
   run:
     - python
-    - scipy
+    - scipy >=1.8.0
     - joblib >=1.2.0
     - threadpoolctl >=3.1.0
 
