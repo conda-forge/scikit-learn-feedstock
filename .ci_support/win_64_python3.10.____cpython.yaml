@@ -1,0 +1,25 @@
+c_compiler:
+- vs2022
+c_stdlib:
+- vs
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge scikit-learn_rc
+cxx_compiler:
+- vs2022
+numpy:
+- '2'
+pin_run_as_build:
+  python:
+    min_pin: x.x
+    max_pin: x.x
+python:
+- 3.10.* *_cpython
+python_impl:
+- cpython
+target_platform:
+- win-64
+zip_keys:
+- - python
+  - channel_sources
