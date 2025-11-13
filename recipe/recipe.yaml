@@ -1,9 +1,10 @@
-# https://github.com/scikit-learn/scikit-learn/issues/20335
 schema_version: 1
 
 context:
   version: "1.7.2"
   # sometimes used to match PyPI releases
+  # NOTE: rattler-build does not support empty strings, therefore we use
+  # whitespace that we trim to get an empty string
   tag: " "
 
 package:
