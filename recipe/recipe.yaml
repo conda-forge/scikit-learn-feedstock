@@ -1,0 +1,140 @@
+schema_version: 1
+
+context:
+  version: "1.8.0"
+  # sometimes used to match PyPI releases
+  # NOTE: rattler-build does not support empty strings, therefore we use
+  # whitespace that we trim to get an empty string
+  tag: " "
+
+package:
+  name: scikit-learn
+  version: ${{ version }}
+
+source:
+  url: https://github.com/scikit-learn/scikit-learn/archive/${{ version }}${{ tag | trim }}.tar.gz
+  sha256: 603bff01ab8bd0a9de5a3ab0a9351b5d7f5594594cc070d763c537ecf397264f
+
+build:
+  number: 1
+  skip: python_impl == "pypy" or match(python, "<3.11")
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - meson-python >=0.17.1
+        - ninja
+        - cython >=3.1.2
+        - numpy
+        - scipy
+    - ${{ stdlib('c') }}
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - if: osx
+      then: llvm-openmp
+    - if: linux
+      then: libgomp
+  host:
+    - python
+    - pip
+    - python-build
+    - meson-python >=0.17.1
+    - ninja
+    - cython >=3.1.2
+    - numpy
+    - scipy >=1.10.0
+    - joblib >=1.3.0
+    - threadpoolctl >=3.2.0
+    # See https://github.com/conda-forge/openmp-feedstock/issues/126
+    - if: osx
+      then: llvm-openmp
+    - if: linux
+      then: libgomp
+  run:
+    - python
+    - numpy >=1.24.1
+    - scipy >=1.10.0
+    - joblib >=1.3.0
+    - threadpoolctl >=3.2.0
+
+tests:
+  - python:
+      imports:
+        - sklearn
+  - requirements:
+      run:
+        - pytest >=7.1.2
+        - cython >=3.1.2
+        - pytest-xdist
+        - pytest-timeout
+    script:
+      interpreter: python
+      content:
+        - import os
+        - import pytest
+        - 'tests_to_skip = "_not_a_real_test"'
+        # https://github.com/scikit-learn/scikit-learn/issues/20335
+        - 'tests_to_skip += " or test_loadings_converges"'
+        # Numerically unstable test numerical difference in test
+        - if: ppc64le
+          then: 'tests_to_skip += " or test_mlp_regressor_dtypes_casting"'
+        # due to emulation through QEMU, the tests for aarch run very long;
+        # azure has different linux agents, and the weaker ones can be a factor 2 slower;
+        # skip longest-running ones; all run >60sec (on fast agents) resp. >90sec (on slow agents);
+        # since pytest -k skips on string matches, try to match accurately to avoid skipping more than intended
+        - if: aarch64 and (env.get("CI", default="False") == "True")
+          then: 'tests_to_skip += " or (test_quantile and (test_asymmetric_error
+            or test_quantile_estimates_calibration or test_quantile_sample_weight))"
+            + " or test_kernel_pca_solvers_equivalence or test_n_iter_no_change_inf"
+            + " or test_iterative_imputer_no_missing or (test_voting and test_gridsearch)"
+            + " or test_svc_ovr_tie_breaking or test_check_estimator_clones"
+            + " or (test_estimators and QuantileRegressor)"
+            + " or (test_pairwise and test_cosine_distances)"
+            + " or test_randomized_eigsh_reconst_low_rank"
+            + " or test_randomized_svd_power_iteration_normalizer"
+            + " or test_SGDClassifier_fit_for_all_backends"
+            + " or test_classifier_chain_fit_and_predict_with_linear_svc"
+            + " or (test_gradient_boosting and test_poisson)"
+            + " or (test_ridge and test_lbfgs_solver_consistency)"
+            + " or (test_linear_models_cv_fit_for_all_backends and MultiTask)"
+            + " or test_spectral_embedding_callable_affinity"
+            + " or test_spectral_embedding_precomputed_affinity"'
+        # reduce contention for parallelism (xdist-workers, openblas, openmp) that
+        # actually increases the runtime and can lead to timeouts
+        - if: aarch64 or ppc64le
+          then: 'os.environ["OMP_NUM_THREADS"] = "1"'
+        - 'args = ["--pyargs", "sklearn", "-k", f"not ({tests_to_skip})", "-nauto", "--timeout=1200", "--durations=50"]'
+        - if: not (ppc64le or aarch64)
+          then:
+            - 'print(f"running pytest with args: {args}")'
+            - 'pytest.main(args)'
+        # NOTE: test suite is skipped on ppc due to bugs in QEMU code that cause
+        # CI to fail, even though the tests should run through on native hardware
+        # NOTE(bis): test suite is skipped for aarch64 due to issue with lapack
+        # We are not able to reproduce the issue locally
+
+about:
+  license: BSD-3-Clause
+  license_file: COPYING
+  summary: A set of python modules for machine learning and data mining
+  homepage: http://scikit-learn.org/
+  repository: https://github.com/scikit-learn/scikit-learn
+
+extra:
+  recipe-maintainers:
+    - amueller
+    - astaric
+    - jakirkham
+    - ogrisel
+    - ocefpaf
+    - lesteve
+    - jnothman
+    - rth
+    - adrinjalali
+    - glemaitre
+    - jeremiedbb
+    - thomasjpfan
+    - jjerphan
