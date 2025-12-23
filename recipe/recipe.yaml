@@ -1,12 +1,13 @@
 schema_version: 1
 
 context:
-  version: "1.8.0"
+  full_version: "1.8.0"
+  # X.Y.Z-N used in rare cases for PyPI releases
+  version: ${{ full_version.split("-")[0] }}
 
 package:
   name: scikit-learn
-  # X.Y.Z-N used in rare cases for PyPI releases
-  version: ${{ version.split("-")[0] }}
+  version: ${{ version }}
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/${{ version }}.tar.gz
