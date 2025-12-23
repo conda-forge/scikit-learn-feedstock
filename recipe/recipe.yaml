@@ -3,7 +3,7 @@ schema_version: 1
 context:
   full_version: "1.8.0"
   # X.Y.Z-N used in rare cases for PyPI releases
-  version: ${{ full_version.split("-")[0] }}
+  version: ${{ (full_version | split("-"))[0] }}
 
 package:
   name: scikit-learn
