@@ -2,17 +2,15 @@ schema_version: 1
 
 context:
   version: "1.8.0"
-  # sometimes used to match PyPI releases
-  # NOTE: rattler-build does not support empty strings, therefore we use
-  # whitespace that we trim to get an empty string
-  tag: " "
+  # X.Y.Z-N used in rare cases for PyPI releases
+  version_sanitized: ${{ (version | split("-"))[0] }}
 
 package:
   name: scikit-learn
-  version: ${{ version }}
+  version: ${{ version_sanitized }}
 
 source:
-  url: https://github.com/scikit-learn/scikit-learn/archive/${{ version }}${{ tag | trim }}.tar.gz
+  url: https://github.com/scikit-learn/scikit-learn/archive/${{ version }}.tar.gz
   sha256: 603bff01ab8bd0a9de5a3ab0a9351b5d7f5594594cc070d763c537ecf397264f
 
 build:
