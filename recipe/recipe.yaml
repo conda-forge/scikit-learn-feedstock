@@ -1,0 +1,119 @@
+schema_version: 1
+
+context:
+  version: "1.9.0rc1"
+  # X.Y.Z-N used in rare cases for PyPI releases
+  version_sanitized: ${{ (version | split("-"))[0] }}
+
+package:
+  name: scikit-learn
+  version: ${{ version_sanitized }}
+
+source:
+  url: https://github.com/scikit-learn/scikit-learn/archive/${{ version }}.tar.gz
+  sha256: 07930257fbe523297c682c25dfaf5f84f4715ab6c526aacbdfb802d206f1f97f
+
+build:
+  number: 0
+  skip: python_impl == "pypy" or match(python, "<3.11")
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - meson-python >=0.17.1
+        - ninja
+        - cython >=3.1.2
+        - numpy
+        - scipy
+    - ${{ stdlib('c') }}
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - if: osx
+      then: llvm-openmp
+    - if: linux
+      then: libgomp
+  host:
+    - python
+    - pip
+    - python-build
+    - meson-python >=0.17.1
+    - ninja
+    - cython >=3.1.2
+    - numpy
+    - scipy >=1.13.0
+    - joblib >=1.4.0
+    - threadpoolctl >=3.5.0
+    - narwhals >=2.0.1
+    # See https://github.com/conda-forge/openmp-feedstock/issues/126
+    - if: osx
+      then: llvm-openmp
+    - if: linux
+      then: libgomp
+  run:
+    - python
+    - numpy >=1.24.1
+    - scipy >=1.10.0
+    - joblib >=1.4.0
+    - threadpoolctl >=3.5.0
+    - narwhals >=2.0.1
+
+tests:
+  - python:
+      imports:
+        - sklearn
+  - requirements:
+      run:
+        - pytest >=7.1.2
+        - cython >=3.1.2
+        - pytest-xdist
+        - pytest-timeout
+    script:
+      interpreter: python
+      content:
+        - import os
+        - import pytest
+        - 'tests_to_skip = "_not_a_real_test"'
+        # https://github.com/scikit-learn/scikit-learn/issues/20335
+        - 'tests_to_skip += " or test_loadings_converges"'
+        # Numerically unstable test numerical difference in test
+        - if: ppc64le
+          then: 'tests_to_skip += " or test_mlp_regressor_dtypes_casting"'
+        # reduce contention for parallelism (xdist-workers, openblas, openmp) that
+        # actually increases the runtime and can lead to timeouts
+        - if: aarch64 or ppc64le
+          then: 'os.environ["OMP_NUM_THREADS"] = "1"'
+        - 'args = ["--pyargs", "sklearn", "-k", f"not ({tests_to_skip})", "-nauto", "--timeout=1200", "--durations=50"]'
+        - if: not (ppc64le or aarch64)
+          then:
+            - 'print(f"running pytest with args: {args}")'
+            - 'pytest.main(args)'
+        # NOTE: test suite is skipped on ppc due to bugs in QEMU code that cause
+        # CI to fail, even though the tests should run through on native hardware
+        # NOTE(bis): test suite is skipped for aarch64 due to issue with lapack
+        # We are not able to reproduce the issue locally
+
+about:
+  license: BSD-3-Clause
+  license_file: COPYING
+  summary: A set of python modules for machine learning and data mining
+  homepage: http://scikit-learn.org/
+  repository: https://github.com/scikit-learn/scikit-learn
+
+extra:
+  recipe-maintainers:
+    - amueller
+    - astaric
+    - jakirkham
+    - ogrisel
+    - ocefpaf
+    - lesteve
+    - jnothman
+    - rth
+    - adrinjalali
+    - glemaitre
+    - jeremiedbb
+    - thomasjpfan
+    - jjerphan

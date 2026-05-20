@@ -26,7 +26,7 @@ chmod +x "${micromamba_exe}"
 echo "Creating environment"
 "${micromamba_exe}" create --yes --root-prefix "${MAMBA_ROOT_PREFIX}" --prefix "${MINIFORGE_HOME}" \
   --channel conda-forge \
-  pip python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=24.1"
+  pip rattler-build conda-forge-ci-setup=4 "conda-build>=24.1"
 echo "Moving pkgs cache from ${MAMBA_ROOT_PREFIX} to ${MINIFORGE_HOME}"
 mv "${MAMBA_ROOT_PREFIX}/pkgs" "${MINIFORGE_HOME}"
 echo "Cleaning up micromamba"
@@ -63,6 +63,25 @@ if [[ "${sha:-}" == "" ]]; then
   sha=$(git rev-parse HEAD)
 fi
 
+if [[ "${OSX_SDK_DIR:-}" == "" ]]; then
+  if [[ "${CI:-}" == "" ]]; then
+    echo "Please set OSX_SDK_DIR to a directory where SDKs can be downloaded to. Aborting"
+    exit 1
+  else
+    export OSX_SDK_DIR=/opt/conda-sdks
+    /usr/bin/sudo mkdir -p "${OSX_SDK_DIR}"
+    /usr/bin/sudo chown "${USER}" "${OSX_SDK_DIR}"
+  fi
+else
+  if tmpf=$(mktemp -p "$OSX_SDK_DIR" tmp.XXXXXXXX 2>/dev/null); then
+      rm -f "$tmpf"
+      echo "OSX_SDK_DIR is writeable without sudo, continuing"
+  else
+      echo "User-provided OSX_SDK_DIR is not writeable for current user! Aborting"
+      exit 1
+  fi
+fi
+
 echo -e "\n\nRunning the build setup script."
 source run_conda_forge_build_setup
 
@@ -70,33 +89,25 @@ source run_conda_forge_build_setup
 
 ( endgroup "Configuring conda" ) 2> /dev/null
 
-echo -e "\n\nMaking the build clobber file"
-make_build_number ./ ./recipe ./.ci_support/${CONFIG}.yaml
-
 if [[ -f LICENSE.txt ]]; then
   cp LICENSE.txt "recipe/recipe-scripts-license.txt"
 fi
 
 if [[ "${BUILD_WITH_CONDA_DEBUG:-0}" == 1 ]]; then
-    if [[ "x${BUILD_OUTPUT_ID:-}" != "x" ]]; then
-        EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --output-id ${BUILD_OUTPUT_ID}"
-    fi
-    conda debug ./recipe -m ./.ci_support/${CONFIG}.yaml \
-        ${EXTRA_CB_OPTIONS:-} \
-        --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
-
-    # Drop into an interactive shell
-    /bin/bash
+    echo "rattler-build does not currently support debug mode"
 else
 
     if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]]; then
-        EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --no-test"
+        EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --test skip"
     fi
 
-    conda-build ./recipe -m ./.ci_support/${CONFIG}.yaml \
-        --suppress-variables ${EXTRA_CB_OPTIONS:-} \
-        --clobber-file ./.ci_support/clobber_${CONFIG}.yaml \
-        --extra-meta flow_run_id="$flow_run_id" remote_url="$remote_url" sha="$sha"
+    rattler-build build --recipe ./recipe \
+        -m ./.ci_support/${CONFIG}.yaml \
+        ${EXTRA_CB_OPTIONS:-} \
+        --target-platform "${HOST_PLATFORM}" \
+        --extra-meta flow_run_id="$flow_run_id" \
+        --extra-meta remote_url="$remote_url" \
+        --extra-meta sha="$sha"
 
     ( startgroup "Inspecting artifacts" ) 2> /dev/null
 
