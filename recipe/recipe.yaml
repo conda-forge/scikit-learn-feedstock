@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "1.9.0"
+  version: "1.9.1"
   # X.Y.Z-N used in rare cases for PyPI releases
   version_sanitized: ${{ (version | split("-"))[0] }}
 
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/scikit-learn/scikit-learn/archive/${{ version }}.tar.gz
-  sha256: f2abcab8a4c510714e23f96f122ba74c6f73f927aeee7753b0bbeb7dc43998ab
+  sha256: bee6fd6ceb15b61057e47154614232f5cac411f21d42305d7d7e395962905a67
 
 build:
   number: 0
